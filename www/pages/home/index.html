@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Griffins Medicals | Zambia's Trusted Pharmacy</title>
+    <meta name="description" content="Zambia's trusted online pharmacy - Prescriptions, medicines, and healthcare products delivered to your doorstep.">
+    <meta name="keywords" content="pharmacy, medicines, healthcare, Zambia, prescriptions">
+    <meta name="author" content="Griffins Medicals Limited">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Master Stylesheet -->
+    <link rel="stylesheet" href="index.css">
+    <!-- Leaflet CSS for maps -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet JS for maps -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="main-header">
+    <div class="logo" onclick="location.href='../home/index.html'">Griffins Medicals Limited</div>
+    <div class="header-actions">
+        <a href="../home/index.html">Home</a>
+        <a href="../admin/index.html" id="adminLink" class="hidden">Admin</a>
+        <a href="javascript:void(0)" id="authLink" onclick="window.openAuthModal()">Login / Signup</a>
+
+        <div class="header-controls">
+            <a href="../cart/index.html" id="cartBtn" class="action-pill">
+                <i class="fa-solid fa-cart-shopping"></i> Cart <span id="cartCount">0</span>
+            </a>
+            
+            <button type="button" class="action-pill" onclick="window.togglePrescList(event)">
+                <i class="fa-solid fa-envelope"></i> Quotes <span id="quoteCount">0</span>
+            </button>
+
+            <button class="action-pill" onclick="openTrackingModal()">
+                <i class="fa-solid fa-location-dot"></i> Track
+            </button>
+    
+            <button class="action-pill rider-special hidden" onclick="openRiderPortal()" id="riderBtn">
+                <i class="fa-solid fa-bicycle"></i> Rider
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Dynamic Navigation -->
+<nav class="main-nav"></nav>
+
+<!-- Hero Search Section -->
+<section class="search-section">
+    <div class="search-container">
+        <h2>Griffins Medicals Limited</h2>
+        <p>Reliable Wellness, Right Where You Are<br>Search Any Medicine Or Upload Your Prescription Below</p>
+        
+        <div class="search-upload-wrapper">
+            <div class="search-box search-wrapper"> 
+                <input type="text" id="searchInput" placeholder="Search for medicine..." onkeyup="handleLiveSearch(event)" autocomplete="off">
+                <div id="searchDropdown" class="search-results-dropdown"></div>
+            </div>
+            <button class="integrated-upload-btn" onclick="openUploadModal()">📋 Upload Prescription</button>
+        </div>
+        
+        <div class="prescription-info-box">
+            <div class="info-icon">💡</div>
+            <div class="info-text">
+                <strong>Need Prescription-Only Medicine?</strong>
+                <p>Upload your doctor's prescription. Our pharmacist will review it and send a price quotation directly to your <strong>Quotes</strong> inbox above.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Product Sections -->
+<section class="home-products-section" id="offersSection" style="display:none;">
+    <div class="section-header">
+        <h2>🎁 This Week's Offers</h2>
+    </div>
+    <div class="product-grid" id="offersGrid">
+        <p class="loading-text">Fetching offers...</p>
+    </div>
+</section>
+
+<section class="home-products-section">
+    <div class="section-header">
+        <h2>Health Essentials</h2>
+        <a href="../products/index.html?category=medical_devices_monitors" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="essentialsGrid"> 
+        <p class="loading-text">Loading diagnostic tools...</p>
+    </div>
+</section>
+
+<section class="home-products-section">
+    <div class="section-header">
+        <h2>🔥 Trending Now</h2>
+        <a href="../products/index.html?category=otc&filter=trending" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="trendingGrid">
+        <p class="loading-text">Loading top picks...</p>
+    </div>
+</section>
+
+<section class="home-products-section">
+    <div class="section-header">
+        <h2>✨ Featured Healthcare</h2>
+        <a href="../products/index.html?category=otc&filter=featured" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="featuredGrid">
+        <p class="loading-text">Loading featured items...</p>
+    </div>
+</section>
+
+<!-- Service Section -->
+<section class="service-intro">
+    <h2>Your Safe & Trusted Online Pharmacy</h2>
+    <div class="prescription-steps" style="justify-content: flex-start !important;">
+        <div class="step-card clickable-upload" onclick="openUploadModal()">
+            <div class="step-number">1</div>
+            <h4>Upload</h4>
+            <p>Send your Prescription in PDF or JPEG format.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <h4>Verify</h4>
+            <p>Our pharmacists review and send a quotation.</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <h4>Confirm</h4>
+            <p>Accept the quote to move items to your cart.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ORDER TRACKING MODAL -->
+<!-- ============================================ -->
+<div id="trackingModal" class="modal-overlay-custom">
+    <div class="modal-card tracking-modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-truck"></i> Order Tracking</h3>
+            <button class="modal-close-btn" onclick="closeModal('trackingModal')">&times;</button>
+        </div>
+        <div class="modal-body tracking-modal-body">
+            <div class="order-tabs">
+                <button class="order-tab active" data-tab="active">Active Deliveries</button>
+                <button class="order-tab" data-tab="history">Order History</button>
+            </div>
+            <div id="activeOrdersContainer" class="orders-container active-tab"></div>
+            <div id="historyOrdersContainer" class="orders-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- INVOICE MODAL - SAME AS ADMIN -->
+<!-- ============================================ -->
+<div id="invoiceModal" class="modal">
+    <div class="modal-box modal-lg">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-invoice"></i> Order Invoice</h3>
+            <button class="close-modal" onclick="closeInvoiceViewModal()">&times;</button>
+        </div>
+        <div id="invoiceContent" class="invoice-container">
+            <div class="invoice-loading"><i class="fas fa-spinner fa-spin"></i> Loading invoice...</div>
+        </div>
+        <div class="modal-actions">
+            <button type="button" onclick="printInvoiceView()" class="primary-btn"><i class="fas fa-print"></i> Print Invoice</button>
+            <button type="button" onclick="closeInvoiceViewModal()" class="secondary-btn">Close</button>
+        </div>
+    </div>
+</div>
+<!-- ============================================ -->
+<!-- TRACKING CARD TEMPLATE (ACTIVE QUEUE) -->
+<!-- ============================================ -->
+<template id="trackingActiveCardTemplate">
+    <div class="tracking-order-card">
+        <div class="tracking-order-header">
+            <div class="order-id-badge"></div>
+            <div class="order-date"></div>
+            <div class="order-status-badge"></div>
+        </div>
+        <div class="tracking-progress-container">
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill"></div>
+            </div>
+        </div>
+        <div class="tracking-order-details">
+            <div class="order-total-val"></div>
+            <div class="order-address-val"></div>
+        </div>
+        <div class="tracking-order-actions">
+            <button class="tracking-invoice-btn">View Invoice</button>
+            <!-- Cancel button gets appended dynamically here if pending -->
+        </div>
+    </div>
+</template>
+
+<!-- ============================================ -->
+<!-- TRACKING ITEM TEMPLATE (HISTORY QUEUE) -->
+<!-- ============================================ -->
+<template id="trackingHistoryItemTemplate">
+    <div class="history-order-item">
+        <div class="history-order-header">
+            <div class="history-order-id"></div>
+            <div class="history-order-date"></div>
+            <div class="order-status-badge"></div>
+        </div>
+        <div class="history-order-summary">
+            <span class="history-total-val"></span>
+            <button class="history-invoice-btn">View Invoice</button>
+        </div>
+    </div>
+</template>
+<!-- ============================================ -->
+<!-- CUSTOMER QUOTATION MODAL -->
+<!-- ============================================ -->
+<div id="customerQuoteModal" class="modal hidden">
+    <div class="modal-box wide-modal quote-modal">
+        <div class="modal-header">
+            <h2><i class="fas fa-file-invoice-dollar"></i> Medical Quotation</h2>
+            <button class="close-modal" onclick="closeModal('customerQuoteModal')">&times;</button>
+        </div>
+        <div class="quote-modal-body">
+            <div id="quoteStatusBanner" class="quote-status-banner">
+                <i class="fas fa-clock"></i>
+                <span>Quotation Ready - Valid for 7 days</span>
+            </div>
+            
+            <div id="quoteAdminNote" class="admin-note-area">
+                <label><i class="fas fa-user-md"></i> PHARMACIST'S INSTRUCTIONS</label>
+                <p id="adminNoteText">No specific notes for this quotation.</p>
+            </div>
+            
+            <div class="quotation-items-section">
+                <h4><i class="fas fa-list"></i> Prescribed Medicines</h4>
+                <div class="table-container quote-scrollable">
+                    <table class="customer-quote-table">
+                        <thead>
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Dosage/Instructions</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quoteDetailView">
+                            <tr><td colspan="5" class="text-center">Loading items...<\/tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right"><strong>Grand Total:</strong></td>
+                                <td class="text-right" id="quoteGrandTotal"><strong>ZMW 0.00</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            
+            <div id="quoteGeneralInstructions" class="general-instructions-section">
+                <h4><i class="fas fa-sticky-note"></i> General Instructions</h4>
+                <p id="generalInstructionsText"></p>
+            </div>
+            
+            <div class="quote-action-buttons">
+                <button type="button" onclick="rejectQuotation()" class="reject-quote-btn">
+                    <i class="fas fa-times"></i> Reject Quotation
+                </button>
+                <button type="button" onclick="acceptQuotation()" class="accept-quote-btn">
+                    <i class="fas fa-check"></i> Accept & Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- REJECT QUOTATION MODAL -->
+<!-- ============================================ -->
+<div id="rejectQuoteModal" class="modal hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-times-circle"></i> Reject Quotation</h3>
+            <button class="close-modal" onclick="closeModal('rejectQuoteModal')">&times;</button>
+        </div>
+        <div class="reject-quote-content">
+            <p class="reject-info">Please let us know why you're rejecting this quotation:</p>
+            <div class="form-group">
+                <label>Reason for rejection</label>
+                <textarea id="rejectionReason" rows="4" placeholder="e.g., Too expensive, Found cheaper elsewhere, Don't need these medicines anymore, etc."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeModal('rejectQuoteModal')" class="secondary-btn">Cancel</button>
+                <button onclick="confirmRejectQuotation()" class="danger-btn">Confirm Rejection</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- PRESCRIPTION UPLOAD MODAL -->
+<!-- ============================================ -->
+<div id="prescriptionModal" class="modal">
+    <div class="modal-box presc-modal-box">
+        <div class="modal-header">
+            <h3>📤 Upload Prescription</h3>
+            <button type="button" class="close-modal" onclick="closeModal('prescriptionModal')" aria-label="Close">&times;</button>
+        </div>
+        <form class="presc-form" onsubmit="window.handlePrescriptionSubmit(event)">
+            <div class="modal-body presc-body">
+                <p class="presc-intro">Our pharmacist will review your prescription and send a price quotation to your <strong>Quotes</strong> inbox. <span id="prescContactLine"></span></p>
+
+                <div class="input-group">
+                    <label for="prescRef" class="input-label">Who is this for? <span class="presc-optional">(optional)</span></label>
+                    <input type="text" id="prescRef" placeholder="e.g. For Dad's meds" class="modal-input" maxlength="80">
+                </div>
+
+                <div class="input-group">
+                    <span class="input-label">Prescription photo or PDF</span>
+                    <input type="file" id="prescFile" accept="image/*,application/pdf" class="presc-file-hidden" onchange="window.previewPrescriptionFile(this)">
+                    <label for="prescFile" id="prescDropArea" class="presc-drop">
+                        <span class="presc-drop-icon">📷</span>
+                        <span class="presc-drop-title">Tap to take a photo or choose a file</span>
+                        <span class="presc-drop-hint">JPG, PNG or PDF, up to 10 MB</span>
+                    </label>
+                    <div id="prescPreview" class="presc-preview hidden">
+                        <img id="prescPreviewImg" alt="Prescription preview" class="hidden">
+                        <div class="presc-preview-info">
+                            <span id="prescFileName" class="presc-file-name"></span>
+                            <button type="button" class="presc-change-btn" onclick="window.clearPrescriptionFile()">Change</button>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="presc-tips">
+                    <li>Lay the prescription flat in good light</li>
+                    <li>Doctor's name, date and signature must be visible</li>
+                    <li>Make sure the writing is sharp, not blurry</li>
+                </ul>
+
+                <div id="uploadStatus" class="status-msg"></div>
+                <p class="presc-privacy">🔒 Your prescription is used only by our pharmacy to prepare your quote.</p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" onclick="closeModal('prescriptionModal')" class="secondary-btn">Cancel</button>
+                <button type="submit" class="primary-btn submit-presc-btn">Submit Prescription</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- AUTHENTICATION MODAL -->
+<!-- ============================================ -->
+<div id="authModal" class="modal">
+    <div class="modal-box auth-modal-box">
+        <div class="auth-modal-header">
+            <h3 id="authTitle">Welcome Back</h3>
+            <button class="close-modal" onclick="window.closeAuthModal()">&times;</button>
+        </div>
+        <div class="auth-modal-body">
+            <div id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email Address" class="auth-input">
+                <input type="password" id="loginPass" placeholder="Password" class="auth-input">
+                <button class="primary-btn auth-btn" id="loginBtn" onclick="window.handleLogin()">
+                    <span>Login</span>
+                </button>
+                <p class="auth-switch">New here? <a href="javascript:void(0)" onclick="window.toggleAuthMode('signup')">Sign Up</a></p>
+            </div>
+            <div id="signupForm" class="hidden">
+                <input type="text" id="signupName" placeholder="Full Name" class="auth-input">
+                <input type="email" id="signupEmail" placeholder="Email Address" class="auth-input">
+                <input type="tel" id="signupPhone" placeholder="Phone Number" class="auth-input">
+                <input type="text" id="signupPlace" placeholder="Delivery Address" class="auth-input">
+                <input type="password" id="signupPass" placeholder="Password" class="auth-input">
+                <button class="primary-btn auth-btn" id="signupBtn" onclick="window.handleSignup()">
+                    <span>Create Account</span>
+                </button>
+                <p class="auth-switch">Have an account? <a href="javascript:void(0)" onclick="window.toggleAuthMode('login')">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CART NOTIFICATION -->
+<!-- ============================================ -->
+<div id="cartNotification" class="cart-notification">
+    <h4>✅ Item Added!</h4>
+    <div class="notification-buttons">
+        <a href="../cart/index.html" class="go-cart-btn">Go to Cart</a>
+        <button onclick="closeNotification()" class="shop-more-btn">Shop More</button>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- RIDER PORTAL MODAL -->
+<!-- ============================================ -->
+<div id="riderModal" class="modal-overlay-custom">
+    <div class="modal-card rider-modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-motorcycle"></i> My Deliveries</h3>
+            <button class="close-btn" onclick="closeModal('riderModal')">&times;</button>
+        </div>
+        <div class="modal-body rider-modal-body">
+            <div class="rider-stats">
+                <div class="rider-stat">
+                    <span class="stat-label">Active Deliveries</span>
+                    <span class="stat-value" id="riderActiveCount">0</span>
+                </div>
+                <div class="rider-stat">
+                    <span class="stat-label">Completed Today</span>
+                    <span class="stat-value" id="riderCompletedCount">0</span>
+                </div>
+            </div>
+            
+            <!-- Target container for active tasks -->
+            <div id="riderOrdersList" class="rider-orders-list"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- REUSABLE RIDER TASK CARD TEMPLATE -->
+<!-- ============================================ -->
+<template id="riderTaskTemplate">
+    <div class="rider-task-card">
+        <div class="task-card-header">
+            <strong class="task-id"></strong>
+            <span class="status-badge-rider"></span>
+        </div>
+        <div class="task-card-body">
+            <p class="task-customer"></p>
+            <p class="task-phone"></p>
+            <p class="task-address"></p>
+            
+            <!-- Map container - will be dynamically populated by JavaScript -->
+            <div class="task-map-container"></div>
+            
+            <p class="task-total"></p>
+        </div>
+        <div class="task-card-actions">
+            <!-- Dynamic programmatic buttons will be safely appended here -->
+        </div>
+    </div>
+</template>
+<!-- ============================================ -->
+<!-- FEEDBACK & REVIEWS SECTION -->
+<!-- ============================================ -->
+<section class="feedback-section">
+    <div class="feedback-header">
+        <div class="feedback-title">
+            <h2><i class="fas fa-star"></i> Patient Reviews</h2>
+            <p>What our patients say about us</p>
+        </div>
+        <div class="feedback-filters">
+            <select id="feedbackSortFilter" onchange="loadPublicFeedback()">
+                <option value="newest">⭐ Newest First</option>
+                <option value="oldest">📅 Oldest First</option>
+                <option value="highest">⭐⭐⭐⭐⭐ Highest Rated</option>
+                <option value="lowest">⭐ Lowest Rated</option>
+            </select>
+            <button class="write-review-btn" onclick="openFeedbackModal()">
+                <i class="fas fa-pen"></i> Write a Review
+            </button>
+        </div>
+    </div>
+    <div id="feedbackList" class="feedback-grid">
+        <div class="loading-text">Loading reviews...</div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- FEEDBACK MODAL -->
+<!-- ============================================ -->
+<div id="feedbackModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-star"></i> Share Your Experience</h3>
+            <button class="close-modal" onclick="closeModal('feedbackModal')">&times;</button>
+        </div>
+        <div class="feedback-modal-content">
+            <div class="star-rating-section">
+                <label>Your Rating</label>
+                <div class="star-rating">
+                    <i class="far fa-star" data-rating="1" onclick="setRating(1)"></i>
+                    <i class="far fa-star" data-rating="2" onclick="setRating(2)"></i>
+                    <i class="far fa-star" data-rating="3" onclick="setRating(3)"></i>
+                    <i class="far fa-star" data-rating="4" onclick="setRating(4)"></i>
+                    <i class="far fa-star" data-rating="5" onclick="setRating(5)"></i>
+                </div>
+                <input type="hidden" id="feedbackRating" value="0">
+            </div>
+            <div class="message-section">
+                <label>Your Review</label>
+                <textarea id="feedbackMessage" rows="4" placeholder="Share your experience with us..."></textarea>
+            </div>
+            <div class="name-section">
+                <label>Your Name (Optional)</label>
+                <input type="text" id="feedbackName" placeholder="Enter your name">
+            </div>
+            <div class="modal-actions">
+                <button onclick="closeModal('feedbackModal')" class="secondary-btn">Cancel</button>
+                <button onclick="submitFeedback()" class="primary-btn">Submit Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SUBSTITUTE MEDICINE MODAL -->
+<!-- ============================================ -->
+<div id="substituteModal" class="modal hidden">
+    <div class="modal-box substitute-modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-exchange-alt"></i> Substitute Medicine</h3>
+            <button class="close-modal" onclick="closeSubstituteModal()">&times;</button>
+        </div>
+        <div class="substitute-modal-content">
+            <p class="substitute-info">Find alternatives for: <strong id="substituteMedicineName"></strong></p>
+            <div id="substituteResults" class="substitute-results">
+                <div class="loading-text">Loading alternatives with same active ingredient...</div>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button type="button" onclick="closeSubstituteModal()" class="secondary-btn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- FLOATING PRESCRIPTION LIST PANEL -->
+<!-- ============================================ -->
+<div id="floatingPrescList" class="floating-panel hidden">
+    <div class="panel-header">
+        <h3><i class="fas fa-file-invoice"></i> My Prescription Quotes</h3>
+        <button onclick="window.togglePrescList(event)" class="close-btn">&times;</button>
+    </div>
+    <div class="panel-content" id="customerPrescList">
+        <div class="loading-text">Loading quotes...</div>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4 class="footer-logo">Griffins Medicals</h4>
+            <p class="tagline">Your Trusted Healthcare Partner</p>
+            <p class="footer-description">Providing quality healthcare products and pharmaceutical services across Zambia since 2020.</p>
+            <p class="copyright">© 2026 Griffins Medicals Limited.<br>All rights reserved.</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-map-marker-alt"></i> Visit Us</h4>
+            <p>3534, Behind Lusaka Medicamp, Opposite Nosh Auto Spares, North End<br>Freedom Way<br>Lusaka, Zambia</p>
+            <p><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 5:00 PM<br>Sat - Sun: 8:00 AM - 1:00 PM</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-phone-alt"></i> Contact Us</h4>
+            <p><i class="fas fa-phone"></i> +260977874777</p>
+            <p><i class="fab fa-whatsapp"></i> +260777603560</p>
+            <p><i class="fas fa-envelope"></i> Griffinsmedicals.service@gmail.com</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-user-md"></i> Licensed Pharmacist</h4>
+            <div class="pharmacist-badge">
+                <p><strong>Lucky Kalonda</strong></p>
+                <p>HPCZ License: HPCZ/101/2/5/02394</p>
+            </div>
+            <div class="trust-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>ZAMRA Approved Pharmacy</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="footer-credits">
+            <p>Licensed Pharmacy - ZAMRA23/PHAR/0792</p>
+            <p>TPIN: 1003492350</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================ -->
+<!-- FLOATING ACTION BUTTONS -->
+<!-- ============================================ -->
+<div class="fab-container">
+    <a href="javascript:void(0)" onclick="openWhatsApp('260777603560')" class="fab-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://facebook.com/yourpage" class="fab-facebook" target="_blank">
+        <i class="fab fa-facebook-messenger"></i>
+    </a>
+</div>
+<!-- ============================================ -->
+<!-- TOAST CONTAINER -->
+<!-- ============================================ -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- ============================================ -->
+<!-- LOADING OVERLAY -->
+<!-- ============================================ -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading...</p>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script type="module" src="../../assets/js/supabase-config.js"></script>
+<script type="module" src="index.js"></script>
+<script src="../../assets/js/back-button.js"></script>
+<!-- Back Button Debug -->
+<script>
+    // Track page navigation manually for better back button support
+    document.addEventListener('DOMContentLoaded', function() {
+        // Store the current page on load
+        const currentPath = window.location.pathname;
+        console.log('📍 Page loaded:', currentPath);
+        
+        // If Capacitor is running, make sure back button works
+        if (window.Capacitor && Capacitor.isNativePlatform()) {
+            console.log('✅ Running in Capacitor native environment');
+        }
+    });
+</script>
+</body>
+</html>

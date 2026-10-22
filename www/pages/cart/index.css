@@ -1,0 +1,1465 @@
+/* ========================================
+   GRIFFINS MEDICALS - CART PAGE STYLES
+   Consolidated - No Duplicates
+   ======================================== */
+
+/* ----------------------------------------
+   1. CSS VARIABLES
+   ---------------------------------------- */
+   :root {
+    --primary: #9b3a32;
+    --primary-dark: #7a2a24;
+    --primary-light: #fdf1cf;
+    --primary-gradient: linear-gradient(135deg, #9b3a32, #7a2a24);
+    --primary-gradient-hover: linear-gradient(135deg, #b8564c, #9b3a32);
+    --secondary: #6b2420;
+    --secondary-dark: #5a1f1b;
+    --gray-50: #fcf8ee;
+    --gray-100: #f7efdc;
+    --gray-200: #ecdfc4;
+    --gray-300: #d8c8a4;
+    --gray-400: #a8a29e;
+    --gray-500: #78716c;
+    --gray-600: #57534e;
+    --gray-700: #44403c;
+    --gray-800: #292524;
+    --gray-900: #1c1917;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --info: #3b82f6;
+    --info-light: #dbeafe;
+    --white: #ffffff;
+    --black: #000000;
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 20px;
+    --border-radius-2xl: 24px;
+    --border-radius-pill: 50px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ----------------------------------------
+   2. GLOBAL RESETS
+   ---------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: linear-gradient(135deg, #fdf6e3 0%, #f6ebcb 100%);
+    color: var(--gray-900);
+    line-height: 1.5;
+    min-height: 100vh;
+}
+
+body.modal-open {
+    overflow: hidden !important;
+    height: 100vh;
+    padding-right: 15px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ----------------------------------------
+   3. HEADER STYLES
+   ---------------------------------------- */
+.main-header {
+    background: linear-gradient(135deg, #7a2a24 0%, #5a1f1b 100%);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff, var(--primary-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform var(--transition-fast);
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.header-actions a {
+    color: var(--gray-200);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-pill);
+}
+
+.header-actions a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+}
+
+.action-pill {
+    background: var(--primary-gradient);
+    color: white !important;
+    padding: 0.5rem 1.2rem !important;
+    border-radius: var(--border-radius-pill) !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-pill:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#cartCount {
+    background: #ffc107;
+    color: var(--gray-800);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-left: 0.25rem;
+}
+
+/* ----------------------------------------
+   4. MAIN CART CONTAINER
+   ---------------------------------------- */
+.cart-main-wrapper {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.cart-flex-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* Left Column */
+.cart-left-col {
+    flex: 2;
+    min-width: 280px;
+}
+
+.cart-left-col h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Cart Items Wrapper */
+.cart-items-wrapper {
+    background: var(--white);
+    border-radius: var(--border-radius-2xl);
+    padding: 0;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.status-msg {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray-500);
+}
+
+/* Individual Cart Item */
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--gray-200);
+    transition: all var(--transition-fast);
+    background: var(--white);
+}
+
+.cart-item:hover {
+    background: var(--gray-50);
+}
+
+.cart-item-img {
+    flex-shrink: 0;
+}
+
+.cart-item-img img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast);
+}
+
+.cart-item-img img:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.cart-item-details {
+    flex: 2;
+    min-width: 150px;
+}
+
+.cart-item-details h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: 0.35rem;
+    line-height: 1.3;
+}
+
+.item-price {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.prescription-badge {
+    display: inline-block;
+    background: var(--warning-light);
+    color: var(--warning);
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--border-radius-pill);
+    margin-top: 0.3rem;
+    font-weight: 600;
+}
+
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gray-50);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius-pill);
+    border: 1px solid var(--gray-200);
+}
+
+.qty-controls button {
+    background: var(--white);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--primary);
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.qty-controls button:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+.qty-controls span {
+    min-width: 35px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--gray-800);
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-pill);
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.remove-btn:hover {
+    background: var(--danger-light);
+    color: #dc2626;
+}
+
+.cart-item-total {
+    font-weight: 800;
+    min-width: 85px;
+    text-align: right;
+    color: var(--primary-dark);
+    font-size: 1.1rem;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.empty-cart p {
+    font-size: 1.2rem;
+    color: var(--gray-500);
+    margin-bottom: 1.5rem;
+}
+
+.empty-cart .primary-btn {
+    display: inline-block;
+    width: auto;
+    padding: 0.8rem 2rem;
+    text-decoration: none;
+}
+
+/* ----------------------------------------
+   5. DELIVERY CARD
+   ---------------------------------------- */
+.delivery-card {
+    background: var(--white);
+    border-radius: var(--border-radius-2xl);
+    padding: 1.8rem;
+    margin-top: 0;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.delivery-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-grid {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1;
+    margin-bottom: 1.2rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--gray-700);
+    letter-spacing: 0.3px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: var(--border-radius-xl);
+    border: 1.5px solid var(--gray-200);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all var(--transition-fast);
+    background: #fefefe;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(155,58,50, 0.1);
+}
+
+/* Map Section */
+.map-section {
+    margin: 1.2rem 0;
+}
+
+.map-section label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    color: var(--gray-800);
+}
+
+.map-search-bar {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.map-search-bar input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border-radius: var(--border-radius-pill);
+    border: 1.5px solid var(--gray-200);
+    font-size: 0.9rem;
+}
+
+.secondary-btn {
+    background: var(--gray-100);
+    border: 1.5px solid var(--gray-200);
+    padding: 0.7rem 1.2rem;
+    border-radius: var(--border-radius-pill);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all var(--transition-fast);
+    color: var(--gray-800);
+}
+
+.secondary-btn:hover {
+    background: var(--gray-200);
+    transform: translateY(-1px);
+}
+
+#map {
+    height: 350px;
+    width: 100%;
+    border-radius: var(--border-radius-2xl);
+    margin-top: 0.8rem;
+    border: 2px solid var(--gray-200);
+    overflow: hidden;
+    z-index: 1;
+}
+
+.landmark-group {
+    margin-top: 1rem;
+}
+
+.landmark-group textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+/* ----------------------------------------
+   6. CHECKOUT SUMMARY CARD
+   ---------------------------------------- */
+.checkout-summary-card {
+    flex: 1;
+    min-width: 300px;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+    border-radius: var(--border-radius-2xl);
+    padding: 1.8rem;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.checkout-summary-card h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px dashed var(--gray-200);
+}
+
+.price-breakdown {
+    margin: 1.2rem 0;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.8rem 0;
+    font-size: 1rem;
+}
+
+.price-row span:first-child {
+    color: var(--gray-500);
+}
+
+.price-row span:last-child {
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.divider {
+    margin: 1rem 0;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gray-300), transparent);
+}
+
+.total-row {
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+}
+
+.total-label {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--secondary);
+}
+
+#totalAmount {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+/* Courier Note */
+.courier-note {
+    background: var(--warning-light);
+    border-left: 4px solid var(--warning);
+    padding: 0.8rem;
+    border-radius: var(--border-radius-lg);
+    margin: 0.8rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.courier-note span:first-child {
+    color: #d97706;
+    font-weight: 600;
+}
+
+.courier-note span:last-child {
+    color: #78350f;
+}
+
+/* Delivery Note */
+.delivery-note {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: var(--border-radius-xl);
+    text-align: center;
+    font-size: 0.8rem;
+    background: var(--success-light);
+    color: var(--success);
+    border-left: 3px solid var(--success);
+}
+
+/* Place Order Button */
+.primary-btn {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 1rem;
+    border-radius: var(--border-radius-pill);
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+.primary-btn:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.primary-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.payment-footer {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    color: var(--gray-400);
+}
+
+/* ----------------------------------------
+   7. AUTH MODAL
+   ---------------------------------------- */
+.auth-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-modal.active {
+    display: flex;
+}
+
+.auth-modal-box {
+    background: white;
+    width: 90%;
+    max-width: 400px;
+    border-radius: var(--border-radius-2xl);
+    box-shadow: var(--shadow-xl);
+    animation: modalPop 0.3s ease;
+    overflow: hidden;
+}
+
+.auth-modal-header {
+    background: linear-gradient(135deg, #7a2a24, #5a1f1b);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.auth-modal-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.close-auth-modal {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+}
+
+.close-auth-modal:hover {
+    background: var(--danger);
+    transform: rotate(90deg);
+}
+
+#authForm {
+    padding: 1.5rem;
+}
+
+.auth-form-group {
+    margin-bottom: 1rem;
+}
+
+.auth-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--gray-700);
+}
+
+.auth-form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius-lg);
+    border: 1.5px solid var(--gray-200);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+}
+
+.auth-form-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(155,58,50, 0.1);
+}
+
+.auth-submit-btn {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius-pill);
+    font-weight: 700;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-top: 0.5rem;
+}
+
+.auth-submit-btn:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+}
+
+.auth-toggle-text {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    padding: 0 1.5rem 1.5rem;
+    margin: 0;
+}
+
+.auth-toggle-text a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.auth-toggle-text a:hover {
+    text-decoration: underline;
+}
+
+/* ----------------------------------------
+   8. TOAST NOTIFICATION SYSTEM
+   ---------------------------------------- */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 320px;
+    max-width: 420px;
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: auto;
+    animation: toastSlideIn 0.3s ease forwards;
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid;
+}
+
+.toast-success { border-left-color: var(--success); }
+.toast-error { border-left-color: var(--danger); }
+.toast-warning { border-left-color: var(--warning); }
+.toast-info { border-left-color: var(--info); }
+
+.toast-success .toast-icon { background: var(--success-light); color: var(--success); }
+.toast-error .toast-icon { background: var(--danger-light); color: var(--danger); }
+.toast-warning .toast-icon { background: var(--warning-light); color: var(--warning); }
+.toast-info .toast-icon { background: var(--info-light); color: var(--info); }
+
+.toast-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.toast-content { flex: 1; }
+.toast-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--gray-800); }
+.toast-message { font-size: 0.8rem; color: var(--gray-600); line-height: 1.4; }
+
+.toast-close {
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--gray-400);
+    padding: 0.25rem;
+    transition: all var(--transition-fast);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.toast-close:hover { background: var(--gray-100); color: var(--danger); }
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--primary);
+    animation: toastProgress 3s linear forwards;
+}
+
+/* ----------------------------------------
+   9. LOADING OVERLAY
+   ---------------------------------------- */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.loading-overlay .loading-spinner {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-xl);
+}
+
+.loading-overlay .loading-spinner i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* ----------------------------------------
+   10. LEARFLET MAP OVERRIDES
+   ---------------------------------------- */
+.leaflet-popup-content-wrapper {
+    border-radius: var(--border-radius-lg);
+    font-family: inherit;
+}
+
+.leaflet-container {
+    font-family: inherit;
+}
+
+/* ----------------------------------------
+   11. ANIMATIONS
+   ---------------------------------------- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes toastSlideIn {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastSlideOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+@keyframes button-spin {
+    to { transform: rotate(360deg); }
+}
+
+.cart-items-wrapper,
+.delivery-card,
+.checkout-summary-card {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+/* ----------------------------------------
+   12. SCROLLBAR
+   ---------------------------------------- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-200);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+/* ----------------------------------------
+   13. LOADING BUTTON STATES
+   ---------------------------------------- */
+.primary-btn.loading,
+.auth-submit-btn.loading,
+.secondary-btn.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.primary-btn.loading::after,
+.auth-submit-btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    margin-left: -9px;
+    margin-top: -9px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: button-spin 0.8s linear infinite;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ----------------------------------------
+   14. RESPONSIVE DESIGN
+   ---------------------------------------- */
+@media (max-width: 1024px) {
+    .cart-flex-container {
+        gap: 1.5rem;
+    }
+    
+    .checkout-summary-card {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .header-actions {
+        justify-content: center;
+    }
+    
+    .cart-main-wrapper {
+        padding: 0 1rem;
+        margin: 1rem auto;
+    }
+    
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.8rem;
+    }
+    
+    .cart-item-details {
+        text-align: center;
+    }
+    
+    .cart-item-actions {
+        justify-content: center;
+    }
+    
+    .cart-item-total {
+        text-align: center;
+    }
+    
+    .input-grid {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .map-search-bar {
+        flex-direction: column;
+    }
+    
+    .map-search-bar button,
+    #locateBtn {
+        width: 100%;
+    }
+    
+    .checkout-summary-card {
+        padding: 1.2rem;
+    }
+    
+    #totalAmount {
+        font-size: 1.3rem;
+    }
+    
+    .courier-note {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .toast {
+        min-width: auto;
+        width: calc(100% - 2rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-left-col h1 {
+        font-size: 1.4rem;
+    }
+    
+    .delivery-card {
+        padding: 1rem;
+    }
+    
+    .qty-controls {
+        padding: 0.15rem 0.3rem;
+    }
+    
+    .qty-controls button {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+    
+    .auth-modal-box {
+        width: 95%;
+        margin: 1rem;
+    }
+}
+
+/* ----------------------------------------
+   15. UTILITY CLASSES
+   ---------------------------------------- */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+@media (max-width: 768px) {
+    /* 1. Header – not sticky */
+    .main-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.75rem;
+        position: relative !important;
+        top: auto;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .header-actions {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .header-actions a {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .action-pill {
+        font-size: 0.7rem !important;
+        padding: 0.4rem 0.5rem !important;
+    }
+
+    /* 2. Main container */
+    .cart-main-wrapper {
+        margin: 1rem auto;
+        padding: 0 0.75rem;
+    }
+
+    /* 3. Two‑column layout for Cart & Summary */
+    .cart-flex-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Make left column and right column side‑by‑side on mobile */
+    .cart-left-col,
+    .checkout-summary-card {
+        width: 100%;
+    }
+
+    /* But to put them side‑by‑side, we use a grid on the parent */
+    .cart-flex-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .cart-left-col {
+        grid-column: 1 / 2;
+    }
+
+    .checkout-summary-card {
+        grid-column: 2 / 3;
+        position: relative;
+        top: 0;
+        margin-top: 0;
+    }
+
+    /* 4. Delivery card – split into two columns (details + map) */
+    .delivery-card {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    /* Wrap the form fields and map in separate containers for two‑column layout */
+    .delivery-details {
+        width: 100%;
+    }
+
+    .map-section {
+        width: 100%;
+    }
+
+    /* Use grid inside delivery card for side‑by‑side */
+    .delivery-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    /* Ensure map takes full height */
+    #map {
+        height: 250px;
+        margin-top: 0;
+    }
+
+    /* Adjust form inputs to fit smaller columns */
+    .input-grid {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.8rem;
+    }
+
+    .form-group label {
+        font-size: 0.75rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .map-search-bar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .map-search-bar input,
+    .map-search-bar button,
+    #locateBtn {
+        width: 100%;
+    }
+
+    /* 5. Cart items adjustments */
+    .cart-left-col h1 {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.6rem;
+        padding: 0.8rem;
+    }
+
+    .cart-item-img img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cart-item-details h4 {
+        font-size: 0.9rem;
+    }
+
+    .item-price {
+        font-size: 0.85rem;
+    }
+
+    .cart-item-actions {
+        justify-content: center;
+    }
+
+    .qty-controls {
+        padding: 0.2rem 0.3rem;
+    }
+
+    .qty-controls button {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+
+    .remove-btn {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .cart-item-total {
+        font-size: 0.9rem;
+        min-width: auto;
+    }
+
+    /* 6. Order summary card */
+    .checkout-summary-card {
+        padding: 1rem;
+    }
+
+    .checkout-summary-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .price-row {
+        font-size: 0.85rem;
+        margin: 0.5rem 0;
+    }
+
+    .total-row .total-label {
+        font-size: 1rem;
+    }
+
+    #totalAmount {
+        font-size: 1.3rem;
+    }
+
+    .courier-note {
+        font-size: 0.7rem;
+        padding: 0.5rem;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .primary-btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .delivery-note {
+        font-size: 0.7rem;
+    }
+
+    /* 7. Toast notifications */
+    .toast-container {
+        top: 12px;
+        right: 12px;
+        left: 12px;
+    }
+    .toast {
+        min-width: auto;
+        width: calc(100% - 24px);
+        padding: 0.7rem 1rem;
+    }
+
+    /* 8. Auth modal */
+    .auth-modal-box {
+        width: 95%;
+        margin: 1rem;
+    }
+
+    .auth-modal-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .auth-form-group input {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .auth-submit-btn {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    /* 9. Small screen fallback (if columns become too narrow) */
+    @media (max-width: 600px) {
+        .cart-flex-container {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .cart-left-col {
+            grid-column: 1;
+        }
+        .checkout-summary-card {
+            grid-column: 1;
+        }
+        .delivery-card {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .cart-left-col h1 {
+        font-size: 1.2rem;
+    }
+
+    .delivery-card {
+        padding: 0.8rem;
+    }
+
+    .qty-controls button {
+        width: 26px;
+        height: 26px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ==========================================================
+   GRIFFINS SIGN THEME - maroon + gold (matches the pharmacy
+   Business Hours board). Colours come from the :root block.
+   ========================================================== */
+:root {
+    --gold: #f8cc73;
+    --gold-deep: #e0a93a;
+    --gold-pale: #fdf1cf;
+    --cream-text: #f6e7a0;
+    --maroon: #9b3a32;
+    --maroon-dark: #7a2a24;
+    --font-display: 'Marcellus', 'Optima', 'Candara', 'Trebuchet MS', Georgia, serif;
+}
+.main-header, .admin-header {
+    background: linear-gradient(135deg, #9b3a32 0%, #6e231f 100%) !important;
+    border-bottom: 3px solid var(--gold);
+}
+.logo {
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+    background: linear-gradient(135deg, #fff3c4, #f8cc73) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+.header-actions > a, .admin-user span { color: var(--cream-text); }
+.header-actions > a:hover { color: #fff; background: rgba(248,204,115,0.18); }
+.action-pill {
+    background: rgba(248,204,115,0.16) !important;
+    border: 1px solid rgba(248,204,115,0.55) !important;
+    color: var(--cream-text) !important;
+}
+.action-pill:hover { background: var(--gold) !important; color: var(--maroon-dark) !important; }
+.logout-btn { background: rgba(248,204,115,0.16); border-color: rgba(248,204,115,0.55); color: var(--cream-text); }
+.section-header { border-left-color: var(--gold-deep); }
+.section-header h2, .home-products-section h2 { font-family: var(--font-display); color: var(--maroon-dark); font-weight: 400; letter-spacing: 0.03em; }
+.view-all { background: var(--gold) !important; color: var(--maroon-dark) !important; }
+.discount-badge { background: var(--gold) !important; color: var(--maroon-dark) !important; }
+.product-card { border-color: #ecdfc4; }
+.product-card:hover { border-color: var(--gold-deep); }
+.current-price { color: var(--maroon) !important; }
+h1, h2 { font-family: var(--font-display); }
+
+
+/* ---- This Week's Offers in the bag ---- */
+.offer-old { color: #a8a29e; font-weight: 400; }
+.offer-new { color: #9b3a32; font-weight: 800; }
+.offer-tag { margin-top: 4px; display: inline-block; font-size: 0.75rem; font-weight: 700; color: #7a2a24; background: #f8cc73; padding: 2px 10px; border-radius: 50px; }
+.offer-hint { margin-top: 4px; font-size: 0.78rem; color: #7a2a24; background: #fdf1cf; border: 1px dashed #e0a93a; padding: 4px 10px; border-radius: 8px; }

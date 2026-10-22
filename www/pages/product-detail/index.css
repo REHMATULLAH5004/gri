@@ -1,0 +1,1549 @@
+/* ========================================
+   GRIFFINS MEDICALS - PRODUCT DETAIL PAGE STYLES
+   Consolidated - No Duplicates
+   ======================================== */
+
+/* ----------------------------------------
+   1. CSS VARIABLES
+   ---------------------------------------- */
+   :root {
+    --primary: #9b3a32;
+    --primary-dark: #7a2a24;
+    --primary-light: #fdf1cf;
+    --primary-gradient: linear-gradient(135deg, #9b3a32, #7a2a24);
+    --primary-gradient-hover: linear-gradient(135deg, #b8564c, #9b3a32);
+    --secondary: #6b2420;
+    --secondary-dark: #5a1f1b;
+    --gray-50: #fcf8ee;
+    --gray-100: #f7efdc;
+    --gray-200: #ecdfc4;
+    --gray-300: #d8c8a4;
+    --gray-400: #a8a29e;
+    --gray-500: #78716c;
+    --gray-600: #57534e;
+    --gray-700: #44403c;
+    --gray-800: #292524;
+    --gray-900: #1c1917;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --info: #3b82f6;
+    --info-light: #dbeafe;
+    --white: #ffffff;
+    --black: #000000;
+    --border-radius-sm: 6px;
+    --border-radius-md: 10px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 20px;
+    --border-radius-2xl: 24px;
+    --border-radius-pill: 50px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ----------------------------------------
+   2. GLOBAL RESETS
+   ---------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: linear-gradient(135deg, #fdf6e3 0%, #f6ebcb 100%);
+    color: var(--gray-900);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body.modal-open {
+    overflow: hidden !important;
+    height: 100vh;
+    padding-right: 15px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ----------------------------------------
+   3. HEADER STYLES
+   ---------------------------------------- */
+.main-header {
+    background: linear-gradient(135deg, #7a2a24 0%, #5a1f1b 100%);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff, var(--primary-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform var(--transition-fast);
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.header-actions a {
+    color: var(--gray-200);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius-pill);
+}
+
+.header-actions a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+#cartBtn {
+    background: var(--primary-gradient);
+    color: white !important;
+    padding: 0.5rem 1.2rem !important;
+    border-radius: var(--border-radius-pill) !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#cartBtn:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ----------------------------------------
+   4. MAIN CONTAINER & DETAIL WRAPPER
+   ---------------------------------------- */
+.detail-container {
+    max-width: 1300px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+.detail-wrapper {
+    background: white;
+    border-radius: var(--border-radius-2xl);
+    box-shadow: var(--shadow-lg);
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 2.5rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    transition: all var(--transition-base);
+}
+
+.detail-wrapper:hover {
+    box-shadow: var(--shadow-xl);
+}
+
+/* Image Section */
+.detail-img-box {
+    background: var(--gray-50);
+    border-radius: var(--border-radius-xl);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 380px;
+    border: 1px solid var(--gray-200);
+}
+
+#mainProductImg {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    transition: transform var(--transition-base);
+}
+
+#mainProductImg:hover {
+    transform: scale(1.03);
+}
+
+/* Info Section */
+.detail-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.breadcrumb {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-bottom: 0.25rem;
+}
+
+.breadcrumb span {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+#detTitle {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.brand-text {
+    font-size: 0.9rem;
+    color: var(--gray-500);
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+/* Price Section */
+.price-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 0 0.5rem;
+}
+
+.price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.current-price {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.old-price-detail {
+    font-size: 1.1rem;
+    color: var(--gray-400);
+    text-decoration: line-through;
+}
+
+.discount-badge-detail {
+    background: var(--danger);
+    color: white;
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.stock-tag {
+    background: var(--success-light);
+    color: var(--success);
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--border-radius-pill);
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Purchase Controls */
+.purchase-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.qty-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    background: var(--white);
+}
+
+.qty-box button {
+    width: 44px;
+    height: 48px;
+    background: var(--gray-50);
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--gray-700);
+}
+
+.qty-box button:hover {
+    background: var(--primary);
+    color: white;
+}
+
+#pQty {
+    width: 60px;
+    height: 48px;
+    text-align: center;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+    background: white;
+}
+
+/* Primary Button */
+.primary-btn {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-pill);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.purchase-btn {
+    flex: 1;
+    padding: 0 1.5rem;
+    height: 48px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.purchase-btn:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.purchase-btn:active {
+    transform: translateY(0);
+}
+
+.purchase-btn.prescription-btn {
+    background: var(--warning);
+}
+
+.purchase-btn.prescription-btn:hover {
+    background: #d97706;
+}
+
+/* Product Description */
+.product-description {
+    grid-column: 1 / -1;
+    background: var(--gray-50);
+    border-radius: var(--border-radius-xl);
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--gray-200);
+}
+
+.product-description h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#detDesc {
+    color: var(--gray-600);
+    line-height: 1.65;
+    font-size: 0.9rem;
+}
+
+/* Quote Message */
+.quote-message {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--secondary-light);
+    border-radius: var(--border-radius-lg);
+}
+
+.quote-message p:first-child {
+    color: var(--success);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.quote-note {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+}
+
+/* ----------------------------------------
+   5. RECOMMENDATION SECTIONS
+   ---------------------------------------- */
+.related-section {
+    margin-top: 3rem;
+}
+
+.related-section h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 5px solid var(--primary);
+    color: var(--secondary);
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+/* Product Cards */
+.product-card {
+    background: white;
+    border-radius: var(--border-radius-xl);
+    padding: 1.25rem;
+    text-align: center;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+    position: relative;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.product-card .img-wrapper {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    background: var(--gray-50);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+.product-card .img-wrapper img {
+    max-height: 120px;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform var(--transition-fast);
+}
+
+.product-card:hover .img-wrapper img {
+    transform: scale(1.05);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: var(--danger);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.7rem;
+    font-weight: 800;
+    z-index: 10;
+}
+
+.product-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin: 0.5rem 0;
+    line-height: 1.4;
+    min-height: 2.6em;
+}
+
+.product-card .brand-name {
+    font-size: 0.7rem;
+    color: var(--gray-500);
+    margin-bottom: 0.5rem;
+}
+
+.product-card .price-box {
+    margin: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.product-card .new-price {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.product-card .old-price {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    text-decoration: line-through;
+}
+
+.prescription-badge {
+    display: inline-block;
+    background: var(--warning-light);
+    color: var(--warning);
+    font-size: 0.6rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--border-radius-pill);
+    margin-top: 0.5rem;
+    font-weight: 700;
+}
+
+/* Loading & Empty States */
+.loading-spinner,
+.loading-text,
+.empty-text {
+    text-align: center;
+    padding: 3rem;
+    color: var(--gray-500);
+    background: var(--gray-100);
+    border-radius: var(--border-radius-xl);
+    font-size: 0.9rem;
+    grid-column: 1 / -1;
+}
+
+.error-state {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: var(--border-radius-xl);
+    grid-column: 1 / -1;
+}
+
+.error-state h2 {
+    color: var(--danger);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+/* ----------------------------------------
+   6. CART NOTIFICATION
+   ---------------------------------------- */
+.cart-notification {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: white;
+    padding: 1rem 1.25rem;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    border-left: 4px solid var(--primary);
+    display: none;
+    z-index: 10001;
+    animation: slideUp 0.3s ease;
+    min-width: 280px;
+}
+
+.cart-notification h4 {
+    color: var(--gray-800);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.notification-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.go-cart-btn,
+.shop-more-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    border-radius: var(--border-radius-md);
+    flex: 1;
+    text-align: center;
+    text-decoration: none;
+}
+
+.go-cart-btn {
+    background: var(--primary-gradient);
+    color: white;
+    font-weight: 600;
+}
+
+.go-cart-btn:hover {
+    background: var(--primary-gradient-hover);
+}
+
+.shop-more-btn {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    border: 1px solid var(--gray-300);
+    cursor: pointer;
+}
+
+.shop-more-btn:hover {
+    background: var(--gray-200);
+}
+
+/* ----------------------------------------
+   7. AUTH MODAL
+   ---------------------------------------- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1.5rem;
+}
+
+.modal.active {
+    display: flex !important;
+}
+
+.modal-box {
+    background: white;
+    border-radius: var(--border-radius-2xl);
+    width: 100%;
+    max-width: 450px;
+    max-height: 85vh;
+    overflow: auto;
+    box-shadow: var(--shadow-xl);
+    animation: modalPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    color: var(--gray-500);
+    z-index: 10;
+}
+
+.close-modal:hover {
+    background: var(--danger);
+    color: white;
+    transform: rotate(90deg);
+}
+
+#loginForm,
+#signupForm {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#loginForm h3,
+#signupForm h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--gray-800);
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+#loginForm p:first-of-type,
+#signupForm p:first-of-type {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--gray-500);
+}
+
+#loginForm input,
+#signupForm input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--gray-300);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+}
+
+#loginForm input:focus,
+#signupForm input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(155,58,50, 0.1);
+}
+
+#loginForm button,
+#signupForm button {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: var(--border-radius-pill);
+    font-weight: 700;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-top: 0.5rem;
+}
+
+#loginForm button:hover,
+#signupForm button:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+}
+
+.auth-switch {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--gray-500);
+    margin-top: 1rem;
+}
+
+.auth-switch a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* ----------------------------------------
+   8. PRESCRIPTION DIALOG MODAL
+   ---------------------------------------- */
+dialog#prescriptionModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    padding: 0;
+    border: none;
+    border-radius: var(--border-radius-2xl);
+    background: white;
+    box-shadow: var(--shadow-xl);
+    z-index: 10001;
+    font-family: var(--font-primary);
+}
+
+dialog#prescriptionModal::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+dialog#prescriptionModal[open] {
+    display: flex;
+    animation: modalPop 0.35s ease;
+}
+
+.modal-content {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+}
+
+.close-modal-btn:hover {
+    background: var(--danger);
+    color: white;
+}
+
+dialog#prescriptionModal h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--gray-800);
+}
+
+dialog#prescriptionModal p {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+}
+
+dialog#prescriptionModal .form-group {
+    margin-bottom: 1rem;
+}
+
+dialog#prescriptionModal .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 0.3rem;
+}
+
+dialog#prescriptionModal input[type="text"],
+dialog#prescriptionModal input[type="file"] {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--gray-300);
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+}
+
+dialog#prescriptionModal input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(155,58,50, 0.1);
+}
+
+dialog#prescriptionModal small {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--gray-500);
+    margin-top: 0.25rem;
+}
+
+#uploadStatus {
+    font-size: 0.8rem;
+    margin: 0.75rem 0;
+}
+
+.upload-status {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius-md);
+}
+
+.upload-status.uploading {
+    background: var(--info-light);
+    color: var(--info);
+}
+
+.upload-status.success {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.upload-status.error {
+    background: var(--danger-light);
+    color: var(--danger);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: var(--border-radius-pill);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+}
+
+.modal-actions .secondary-btn {
+    background: var(--gray-100);
+    color: var(--gray-600);
+    border: 1px solid var(--gray-300);
+}
+
+.modal-actions .secondary-btn:hover {
+    background: var(--gray-200);
+}
+
+.modal-actions .primary-btn {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.modal-actions .primary-btn:hover {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+}
+
+/* ----------------------------------------
+   9. TOAST NOTIFICATION SYSTEM
+   ---------------------------------------- */
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 100000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 320px;
+    max-width: 420px;
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    pointer-events: auto;
+    animation: toastSlideIn 0.3s ease forwards;
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid;
+}
+
+.toast-success { border-left-color: var(--success); }
+.toast-error { border-left-color: var(--danger); }
+.toast-warning { border-left-color: var(--warning); }
+.toast-info { border-left-color: var(--info); }
+
+.toast-success .toast-icon { background: var(--success-light); color: var(--success); }
+.toast-error .toast-icon { background: var(--danger-light); color: var(--danger); }
+.toast-warning .toast-icon { background: var(--warning-light); color: var(--warning); }
+.toast-info .toast-icon { background: var(--info-light); color: var(--info); }
+
+.toast-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.toast-content { flex: 1; }
+.toast-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; color: var(--gray-800); }
+.toast-message { font-size: 0.8rem; color: var(--gray-600); line-height: 1.4; }
+
+.toast-close {
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--gray-400);
+    padding: 0.25rem;
+    transition: all var(--transition-fast);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.toast-close:hover { background: var(--gray-100); color: var(--danger); }
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--primary);
+    animation: toastProgress 3s linear forwards;
+}
+
+/* ----------------------------------------
+   10. LOADING OVERLAY
+   ---------------------------------------- */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+}
+
+.loading-overlay.hidden {
+    display: none;
+}
+
+.loading-overlay .loading-spinner {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.loading-overlay .loading-spinner i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* ----------------------------------------
+   11. FOOTER
+   ---------------------------------------- */
+.main-footer {
+    background: linear-gradient(135deg, var(--secondary-dark) 0%, #061f18 100%);
+    color: white;
+    margin-top: 4rem;
+    padding: 2rem 2rem 1rem;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.footer-col {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-col h4 {
+    color: var(--primary-light);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.footer-col p {
+    color: var(--gray-400);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.footer-col i {
+    width: 24px;
+    color: var(--primary);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.7rem;
+    color: var(--gray-500);
+}
+
+/* ----------------------------------------
+   12. ANIMATIONS
+   ---------------------------------------- */
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastSlideIn {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toastSlideOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes toastProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* ----------------------------------------
+   13. SCROLLBAR
+   ---------------------------------------- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--gray-200);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+/* ----------------------------------------
+   14. LOADING BUTTON STATES
+   ---------------------------------------- */
+.primary-btn.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.primary-btn.loading .btn-text {
+    visibility: hidden;
+}
+
+.primary-btn.loading::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 50%;
+    margin-left: -9px;
+    margin-top: -9px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: button-spin 0.8s linear infinite;
+}
+
+@keyframes button-spin {
+    to { transform: rotate(360deg); }
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ----------------------------------------
+   15. RESPONSIVE DESIGN
+   ---------------------------------------- */
+@media (max-width: 1024px) {
+    .related-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 0.75rem;
+        position: relative !important;   /* Unfreeze header on mobile */
+        top: auto;
+    }
+    
+    .logo {
+        font-size: 1.2rem;
+    }
+    
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .header-actions a {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    #cartBtn {
+        font-size: 0.7rem !important;
+        padding: 0.4rem 0.5rem !important;
+    }
+    
+    .detail-container {
+        margin: 1.5rem auto;
+        padding: 0 0.75rem;
+    }
+    
+    .detail-wrapper {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 1.25rem;
+        margin-bottom: 2rem;
+    }
+    
+    .detail-img-box {
+        min-height: 240px;
+        padding: 1rem;
+    }
+    
+    #mainProductImg {
+        max-height: 200px;
+    }
+    
+    #detTitle {
+        font-size: 1.3rem;
+    }
+    
+    .brand-text {
+        font-size: 0.8rem;
+    }
+    
+    .current-price {
+        font-size: 1.3rem;
+    }
+    
+    .old-price-detail {
+        font-size: 0.9rem;
+    }
+    
+    .purchase-controls {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .qty-box {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .qty-box button {
+        width: 40px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+    
+    #pQty {
+        width: 55px;
+        height: 44px;
+        font-size: 0.9rem;
+    }
+    
+    /* Mobile button enhancements */
+.purchase-btn {
+    height: 48px !important;          /* taller, easier to tap */
+    font-size: 0.9rem !important;
+    font-weight: 700;
+    border-radius: 60px !important;
+    background-size: 200% auto;
+    transition: all 0.2s ease;
+}
+
+/* Add to Cart – stronger gradient */
+.purchase-btn:not(.prescription-btn) {
+    background: linear-gradient(95deg, #9b3a32 0%, #b8564c 50%, #9b3a32 100%) !important;
+    background-size: 200% auto;
+    box-shadow: 0 4px 12px rgba(155,58,50,0.3);
+}
+
+/* Prescription button – richer amber */
+.purchase-btn.prescription-btn {
+    background: linear-gradient(95deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%) !important;
+    background-size: 200% auto;
+    box-shadow: 0 4px 12px rgba(245,158,11,0.3);
+}
+
+/* Shine animation on tap / active */
+.purchase-btn:active {
+    transform: scale(0.96);
+    background-position: right center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: all 0.05s linear;
+}
+
+/* Also fix any header upload button on mobile */
+#mainUploadBtn,
+.integrated-upload-btn,
+.action-pill {
+    background: linear-gradient(95deg, var(--primary) 0%, #b8564c 100%) !important;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+#mainUploadBtn:active,
+.integrated-upload-btn:active,
+.action-pill:active {
+    transform: scale(0.97);
+}
+    
+    .price-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .product-description {
+        padding: 1rem;
+    }
+    
+    .product-description h3 {
+        font-size: 0.9rem;
+    }
+    
+    #detDesc {
+        font-size: 0.85rem;
+    }
+    
+    .related-section {
+        margin-top: 2rem;
+    }
+    
+    .related-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        padding-left: 0.75rem;
+    }
+    
+    .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+    
+    .product-card {
+        padding: 0.75rem;
+    }
+    
+    .product-card .img-wrapper {
+        height: 110px;
+    }
+    
+    .product-card .img-wrapper img {
+        max-height: 90px;
+    }
+    
+    .product-card h4 {
+        font-size: 0.75rem;
+        min-height: 2.4em;
+    }
+    
+    .product-card .new-price {
+        font-size: 0.85rem;
+    }
+    
+    .product-card .old-price {
+        font-size: 0.65rem;
+    }
+    
+    .prescription-badge {
+        font-size: 0.55rem;
+    }
+    
+    dialog#prescriptionModal {
+        width: 95%;
+        max-width: 95%;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+    
+    .footer-col {
+        min-width: auto;
+    }
+    
+    .toast {
+        min-width: auto;
+        width: calc(100% - 2rem);
+    }
+    
+    .cart-notification {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .related-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    
+    .product-card .img-wrapper {
+        height: 140px;
+    }
+    
+    .product-card .img-wrapper img {
+        max-height: 110px;
+    }
+    
+    .detail-img-box {
+        min-height: 200px;
+    }
+    
+    #detTitle {
+        font-size: 1.2rem;
+    }
+    
+    .current-price {
+        font-size: 1.2rem;
+    }
+    
+    .cart-notification h4 {
+        font-size: 0.8rem;
+    }
+    
+    .notification-buttons button,
+    .notification-buttons a {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    .modal-box {
+        margin: 1rem;
+        max-width: calc(100% - 2rem);
+    }
+    
+    #loginForm,
+    #signupForm {
+        padding: 1.25rem;
+    }
+    
+    #loginForm h3,
+    #signupForm h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* ----------------------------------------
+   16. ACCESSIBILITY
+   ---------------------------------------- */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+.product-card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==========================================================
+   GRIFFINS SIGN THEME - maroon + gold (matches the pharmacy
+   Business Hours board). Colours come from the :root block.
+   ========================================================== */
+:root {
+    --gold: #f8cc73;
+    --gold-deep: #e0a93a;
+    --gold-pale: #fdf1cf;
+    --cream-text: #f6e7a0;
+    --maroon: #9b3a32;
+    --maroon-dark: #7a2a24;
+    --font-display: 'Marcellus', 'Optima', 'Candara', 'Trebuchet MS', Georgia, serif;
+}
+.main-header, .admin-header {
+    background: linear-gradient(135deg, #9b3a32 0%, #6e231f 100%) !important;
+    border-bottom: 3px solid var(--gold);
+}
+.logo {
+    font-family: var(--font-display);
+    letter-spacing: 0.06em;
+    background: linear-gradient(135deg, #fff3c4, #f8cc73) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+.header-actions > a, .admin-user span { color: var(--cream-text); }
+.header-actions > a:hover { color: #fff; background: rgba(248,204,115,0.18); }
+.action-pill {
+    background: rgba(248,204,115,0.16) !important;
+    border: 1px solid rgba(248,204,115,0.55) !important;
+    color: var(--cream-text) !important;
+}
+.action-pill:hover { background: var(--gold) !important; color: var(--maroon-dark) !important; }
+.logout-btn { background: rgba(248,204,115,0.16); border-color: rgba(248,204,115,0.55); color: var(--cream-text); }
+.section-header { border-left-color: var(--gold-deep); }
+.section-header h2, .home-products-section h2 { font-family: var(--font-display); color: var(--maroon-dark); font-weight: 400; letter-spacing: 0.03em; }
+.view-all { background: var(--gold) !important; color: var(--maroon-dark) !important; }
+.discount-badge { background: var(--gold) !important; color: var(--maroon-dark) !important; }
+.product-card { border-color: #ecdfc4; }
+.product-card:hover { border-color: var(--gold-deep); }
+.current-price { color: var(--maroon) !important; }
+h1, h2 { font-family: var(--font-display); }

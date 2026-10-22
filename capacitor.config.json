@@ -1,0 +1,47 @@
+{
+  "appId": "com.gogriffinsmedicals.app",
+  "appName": "gogriffins medicals",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "capacitor",
+    "allowNavigation": ["*"]
+  },
+  "android": {
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": true
+  },
+  "ios": {
+    "scheme": "gogriffinsmedicals",
+    "contentInset": "always"
+  },
+  "plugins": {
+    "Geolocation": {
+      "android": {
+        "requestPermissions": true
+      },
+      "ios": {
+        "requestPermissions": true
+      }
+    },
+    "Browser": {
+      "android": {
+        "packageName": "com.android.chrome"
+      },
+      "ios": {
+        "packageName": "com.apple.mobilesafari"
+      }
+    },
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "backgroundColor": "#6e231f",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#6e231f",
+      "overlaysWebView": false
+    }
+  }
+}

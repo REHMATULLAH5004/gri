@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Griffins Medicals</title>
+    <meta name="description" content="View product details, dosage information, and purchase medicines from Griffins Medicals - Zambia's trusted online pharmacy.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo" onclick="location.href='../home/index.html'">Griffins Medicals Limited</div>
+    
+    <div class="header-actions">
+        <a href="../home/index.html">Home</a>
+        <a href="../admin/index.html" id="adminLink" class="hidden">Admin</a>
+        <a href="javascript:void(0)" id="authLink" onclick="openAuthModal()">Login / Signup</a>
+        <a href="../cart/index.html" id="cartBtn">Cart (0)</a>
+    </div>
+</header>
+
+<!-- Cart Notification -->
+<div id="cartNotification" class="cart-notification">
+    <h4>✅ Item Added to Cart!</h4>
+    <div class="notification-buttons">
+        <a href="../cart/index.html" class="go-cart-btn">Go to Cart</a>
+        <button onclick="closeNotification()" class="shop-more-btn">Shop More</button>
+    </div>
+</div>
+
+<!-- Main Product Detail -->
+<main class="detail-container">
+    <div id="productDetail" class="detail-wrapper">
+        <div class="detail-img-box">
+            <img id="mainProductImg" src="placeholder.jpg" alt="Product">
+        </div>
+    
+        <div class="detail-info-box">
+            <nav class="breadcrumb">Home / <span id="categoryPath">Medicine</span></nav>
+            <h1 id="detTitle">Product Name</h1>
+            <p id="detBrand" class="brand-text">Brand Name</p>
+            
+            <div class="price-section">
+                <div id="detPrice" class="price-display"></div>
+                <span class="stock-tag">✓ In Stock</span>
+            </div>
+    
+            <div class="purchase-controls">
+                <div class="qty-box">
+                    <button onclick="changeQty(-1)">-</button>
+                    <input type="number" id="pQty" value="1" min="1">
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+                <button class="primary-btn purchase-btn" id="addToCartBtn">Add to Bag</button>
+            </div>
+        </div>
+    
+        <div class="product-description">
+            <h3>Dosage & Usage</h3>
+            <p id="detDesc">Loading detailed instructions...</p>
+        </div>
+    </div>
+
+    <!-- Similar Products Section -->
+    <section class="related-section">
+        <h3>Similar Products</h3>
+        <div id="similarProducts" class="related-grid">
+            <p class="loading-text">Finding similar medicines...</p>
+        </div>
+    </section>
+
+    <!-- Frequently Bought Together Section -->
+    <section class="related-section">
+        <h3>Frequently Bought Together</h3>
+        <div id="boughtTogether" class="related-grid">
+            <p class="loading-text">Loading recommendations...</p>
+        </div>
+    </section>
+</main>
+
+<!-- Authentication Modal -->
+<div id="authModal" class="modal">
+    <div class="modal-box">
+        <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+        <div id="loginForm">
+            <h3>Welcome Back</h3>
+            <p>Please enter your details</p>
+            <input type="email" id="loginEmail" placeholder="Email Address">
+            <input type="password" id="loginPass" placeholder="Password">
+            <button class="primary-btn" onclick="handleLogin()">Login</button>
+            <p class="auth-switch">Don't have an account? <a href="javascript:void(0)" onclick="toggleAuth('signup')">Sign Up</a></p>
+        </div>
+        <div id="signupForm" class="hidden">
+            <h3>Create Account</h3>
+            <p>Join Griffins Medicals</p>
+            <input type="text" id="signupName" placeholder="Full Name">
+            <input type="email" id="signupEmail" placeholder="Email Address">
+            <input type="password" id="signupPass" placeholder="Password">
+            <button class="primary-btn" onclick="handleSignup()">Create Account</button>
+            <p class="auth-switch">Already have an account? <a href="javascript:void(0)" onclick="toggleAuth('login')">Login</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading...</p>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4 class="footer-logo">Griffins Medicals</h4>
+            <p class="tagline">Your Trusted Healthcare Partner</p>
+            <p class="footer-description">Providing quality healthcare products and pharmaceutical services across Zambia since 2020.</p>
+            <p class="copyright">© 2026 Griffins Medicals Limited.<br>All rights reserved.</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-map-marker-alt"></i> Visit Us</h4>
+            <p>3534, Behind Lusaka Medicamp, Opposite Nosh Auto Spares, North End<br>Freedom Way<br>Lusaka, Zambia</p>
+            <p><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 5:00 PM<br>Sat - Sun: 8:00 AM - 1:00 PM</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-phone-alt"></i> Contact Us</h4>
+            <p><i class="fas fa-phone"></i> +260977874777</p>
+            <p><i class="fab fa-whatsapp"></i> +260777603560</p>
+            <p><i class="fas fa-envelope"></i> Griffinsmedicals.service@gmail.com</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-user-md"></i> Licensed Pharmacist</h4>
+            <div class="pharmacist-badge">
+                <p><strong>Lucky Kalonda</strong></p>
+                <p>HPCZ License: HPCZ/101/2/5/02394</p>
+            </div>
+            <div class="trust-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>ZAMRA Approved Pharmacy</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="footer-credits">
+            <p>Licensed Pharmacy - ZAMRA23/PHAR/0792</p>
+            <p>TPIN: 1003492350</p>
+        </div>
+    </div>
+</footer>
+
+<script type="module" src="../../assets/js/supabase-config.js"></script>
+<script type="module" src="../home/index.js"></script>
+<script type="module" src="index.js"></script>
+<script src="../../assets/js/back-button.js"></script>
+
+</body>
+</html>

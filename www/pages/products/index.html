@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Griffins Medicals</title>
+    <meta name="description" content="Browse our complete range of medicines, healthcare products, and medical supplies at Griffins Medicals.">
+    <meta name="keywords" content="pharmacy products, medicines, healthcare, Zambia, online pharmacy">
+    <meta name="author" content="Griffins Medicals Limited">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Master Stylesheet -->
+    <link rel="stylesheet" href="index.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="main-header">
+    <div class="logo" onclick="location.href='../home/index.html'">Griffins Medicals Limited</div>
+    <div class="header-actions">
+        <nav class="top-nav">
+            <a href="../home/index.html">Home</a>
+            <a href="javascript:void(0)" id="authLink" onclick="window.openAuthModal()">Login</a>
+        </nav>
+        
+        <div class="header-controls">
+            <a href="../cart/index.html" id="cartBtn" class="action-pill">
+                <i class="fa-solid fa-cart-shopping"></i> Cart <span id="cartCount">0</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Cart Notification -->
+<div id="cartNotification" class="cart-notification">
+    <h4>✅ Item Added!</h4>
+    <div class="notification-buttons">
+        <a href="../cart/index.html" class="go-cart-btn">Go to Cart</a>
+        <button onclick="closeNotification()" class="shop-more-btn">Shop More</button>
+    </div>
+</div>
+
+<!-- Products Header Section -->
+<section class="results-header" id="categoryBanner">
+    <div class="breadcrumb-nav">
+        <a href="../home/index.html">Home</a> / <a href="../products/index.html">Shop</a> / <span id="currentPath">All Products</span>
+    </div>
+    
+    <div class="header-content-wrapper">
+        <div class="title-text">
+            <h1 id="pageTitle">Our Products</h1>
+            <p id="pageSubtitle">Browse our complete range of healthcare products and medicines</p>
+            <button id="mainUploadBtn" class="prescription-upload-btn" onclick="window.openUploadModal()">
+                <i class="fas fa-file-prescription"></i> Upload Prescription
+            </button>
+        </div>
+
+        <div class="filter-action-bar">
+            <div class="filter-group">
+                <label><i class="fas fa-tag"></i> Category</label>
+                <select id="categoryFilter" onchange="window.applyCategoryFilter(this.value)">
+                    <option value="all">All Categories</option>
+                </select>
+            </div>
+
+            <div id="brandFilterContainer" class="filter-group">
+                <label><i class="fas fa-building"></i> Brand</label>
+                <select id="brandFilter" onchange="window.applyCombinedFilters()">
+                    <option value="all">All Brands</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label><i class="fas fa-dollar-sign"></i> Max Price: <span id="priceLabel">5000</span> ZMW</label>
+                <div class="price-slider-wrapper">
+                    <input type="range" id="priceRange" min="0" max="5000" value="5000" oninput="window.updatePriceDisplay(this.value)">
+                    <div class="price-range-values">
+                        <span>0 ZMW</span>
+                        <span>5000+ ZMW</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label><i class="fas fa-sort"></i> Sort By</label>
+                <select id="sortFilter" onchange="window.applySort(this.value)">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="results-meta">
+        <span id="productCountText">Loading products...</span>
+    </div>
+</section>
+
+<!-- Products Grid Section -->
+<main class="product-container">
+    <section class="grid-wrapper">
+        <h2 id="resultTitle" class="section-title">Available Products</h2>
+        <div class="product-grid" id="productGrid">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading products...</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Authentication Modal -->
+<div id="authModal" class="modal">
+    <div class="modal-box">
+        <span class="close-modal" onclick="window.closeAuthModal()">&times;</span>
+        
+        <div id="loginForm">
+            <h3>Welcome Back</h3>
+            <input type="email" id="loginEmail" placeholder="Email Address" class="auth-input">
+            <input type="password" id="loginPass" placeholder="Password" class="auth-input">
+            <button class="primary-btn" onclick="window.handleLogin()">Login</button>
+            <p class="auth-switch">New here? <a href="javascript:void(0)" onclick="window.toggleAuthMode('signup')">Create Account</a></p>
+        </div>
+
+        <div id="signupForm" class="hidden">
+            <h3>Create Account</h3>
+            <input type="text" id="signupName" placeholder="Full Name" class="auth-input">
+            <input type="email" id="signupEmail" placeholder="Email Address" class="auth-input">
+            <input type="tel" id="signupPhone" placeholder="Phone Number" class="auth-input">
+            <input type="text" id="signupPlace" placeholder="Delivery Address" class="auth-input">
+            <input type="password" id="signupPass" placeholder="Password" class="auth-input">
+            <button class="primary-btn" onclick="window.handleSignup()">Sign Up</button>
+            <p class="auth-switch">Already have an account? <a href="javascript:void(0)" onclick="window.toggleAuthMode('login')">Login</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Prescription Upload Modal -->
+<dialog id="prescriptionModal">
+    <div class="prescription-modal-content">
+        <button type="button" class="close-modal-btn" onclick="window.closePrescriptionModal()">&times;</button>
+        <h3><i class="fas fa-file-prescription"></i> Upload Prescription</h3>
+        <p>Please upload your prescription. Our pharmacist will review it and send you a quotation.</p>
+    
+        <form onsubmit="window.handlePrescriptionSubmit(event)">
+            <div class="form-group">
+                <label for="prescRef">Reference Note</label>
+                <input type="text" id="prescRef" placeholder="e.g., For Dad's medication" required>
+            </div>
+            <div class="form-group">
+                <label for="prescFile">Prescription Image</label>
+                <input type="file" id="prescFile" accept="image/*" required>
+            </div>
+            <input type="hidden" id="targetProductId" value="">
+            <div id="uploadStatus" class="status-msg"></div> 
+    
+            <div class="modal-actions">
+                <button type="button" onclick="window.closePrescriptionModal()" class="secondary-btn">Cancel</button>
+                <button type="submit" class="primary-btn">Submit Prescription</button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading...</p>
+    </div>
+</div>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <h4 class="footer-logo">Griffins Medicals</h4>
+            <p class="tagline">Your Trusted Healthcare Partner</p>
+            <p class="footer-description">Providing quality healthcare products and pharmaceutical services across Zambia since 2020.</p>
+            <p class="copyright">© 2026 Griffins Medicals Limited.<br>All rights reserved.</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-map-marker-alt"></i> Visit Us</h4>
+            <p>3534, Behind Lusaka Medicamp, Opposite Nosh Auto Spares, North End<br>Freedom Way<br>Lusaka, Zambia</p>
+            <p><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 5:00 PM<br>Sat - Sun: 8:00 AM - 1:00 PM</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-phone-alt"></i> Contact Us</h4>
+            <p><i class="fas fa-phone"></i> +260977874777</p>
+            <p><i class="fab fa-whatsapp"></i> +260777603560</p>
+            <p><i class="fas fa-envelope"></i> Griffinsmedicals.service@gmail.com</p>
+        </div>
+        
+        <div class="footer-col">
+            <h4><i class="fas fa-user-md"></i> Licensed Pharmacist</h4>
+            <div class="pharmacist-badge">
+                <p><strong>Lucky Kalonda</strong></p>
+                <p>HPCZ License: HPCZ/101/2/5/02394</p>
+            </div>
+            <div class="trust-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>ZAMRA Approved Pharmacy</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="footer-credits">
+            <p>Licensed Pharmacy - ZAMRA23/PHAR/0792</p>
+            <p>TPIN: 1003492350</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================ -->
+<!-- FLOATING ACTION BUTTONS -->
+<!-- ============================================ -->
+<div class="fab-container">
+    <a href="https://facebook.com/yourpage" class="fab-facebook" target="_blank">
+        <i class="fab fa-facebook-messenger"></i>
+    </a>
+    <a href="https://wa.me/260777603560" class="fab-whatsapp" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+<!-- Scripts -->
+<script type="module" src="../../assets/js/supabase-config.js"></script>
+<script type="module" src="../home/index.js"></script>
+<script type="module" src="index.js"></script>
+<script src="../../assets/js/back-button.js"></script>
+
+<!-- Toast Notification Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+</body>
+</html>

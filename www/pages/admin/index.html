@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Griffins Medicals</title>
+    <meta name="description" content="Admin dashboard for Griffins Medicals - Manage products, orders, prescriptions, users, and riders">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="admin-header">
+    <div class="logo" onclick="location.href='../home/index.html'">Griffins Medicals Limited</div>
+    <div class="admin-user">
+        <span id="adminName">Admin</span>
+        <button onclick="handleLogout()" class="logout-btn">Logout</button>
+    </div>
+</header>
+
+<div class="admin-container">
+    <aside class="admin-sidebar">
+        <nav class="admin-nav">
+            <button class="nav-btn active" data-tab="dashboard"><i class="fas fa-chart-line"></i> Dashboard</button>
+            <button class="nav-btn" data-tab="products"><i class="fas fa-box"></i> Products</button>
+            <button class="nav-btn" data-tab="offers"><i class="fas fa-gift"></i> This Week's Offers</button>
+            <button class="nav-btn" data-tab="orders"><i class="fas fa-truck"></i> Orders</button>
+            <button class="nav-btn" data-tab="prescriptions"><i class="fas fa-file-prescription"></i> Prescriptions</button>
+            <button class="nav-btn" data-tab="users"><i class="fas fa-users"></i> Users</button>
+            <button class="nav-btn" data-tab="riders"><i class="fas fa-motorcycle"></i> Riders</button>
+        </nav>
+    </aside>
+
+    <main class="admin-content">
+        <!-- Dashboard Tab -->
+        <div id="dashboardTab" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card"><i class="fas fa-box"></i><div class="stat-info"><h3 id="totalProducts">0</h3><p>Products Live Online</p></div></div>
+                <div class="stat-card"><i class="fas fa-shopping-cart"></i><div class="stat-info"><h3 id="totalOrders">0</h3><p>Total Orders</p></div></div>
+                <div class="stat-card"><i class="fas fa-file-prescription"></i><div class="stat-info"><h3 id="pendingPrescriptions">0</h3><p>Pending Prescriptions</p></div></div>
+                <div class="stat-card"><i class="fas fa-users"></i><div class="stat-info"><h3 id="totalUsers">0</h3><p>Total Users</p></div></div>
+            </div>
+
+            <div class="order-status-overview">
+                <h3>Order Status Overview</h3>
+                <div class="status-cards">
+                    <div class="status-card pending"><i class="fas fa-hourglass-half"></i><span class="status-count" id="pendingStatusCount">0</span><span class="status-name">Pending</span></div>
+                    <div class="status-card processing"><i class="fas fa-cogs"></i><span class="status-count" id="processingStatusCount">0</span><span class="status-name">Processing</span></div>
+                    <div class="status-card ready"><i class="fas fa-box-open"></i><span class="status-count" id="readyStatusCount">0</span><span class="status-name">Ready for Pickup</span></div>
+                    <div class="status-card out-for-delivery"><i class="fas fa-truck"></i><span class="status-count" id="outForDeliveryStatusCount">0</span><span class="status-name">Out for Delivery</span></div>
+                    <div class="status-card delivered"><i class="fas fa-check-circle"></i><span class="status-count" id="deliveredStatusCount">0</span><span class="status-name">Delivered</span></div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <h3>Recent Orders</h3>
+                <div class="recent-table-container">
+                    <table class="recent-table">
+                        <thead><tr><th>Order ID</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                        <tbody id="recentOrdersList"><tr><td colspan="6">Loading orders...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="productsTab" class="tab-content">
+            <div class="tab-header">
+                <h2><i class="fas fa-box"></i> Product Management <small style="font-size:13px;font-weight:400;color:#888;margin-left:8px;">Products are added in the ERP. Fill in the online details here.</small></h2>
+                <div class="header-buttons">
+                    <button class="refresh-btn" onclick="loadProducts()"><i class="fas fa-sync-alt"></i> Refresh from ERP</button>
+                </div>
+            </div>
+            <div class="filters-bar">
+                <input type="text" id="productSearch" placeholder="Search products..." onkeyup="filterProducts()">
+                <select id="categoryFilter" onchange="filterProducts()"><option value="all">All Categories</option></select>
+                <select id="onlineStatusFilter" onchange="filterProducts()"><option value="all">All Products</option><option value="needs">Needs online details</option><option value="live">Live on shop</option><option value="hidden">Hidden from shop</option></select>
+                <select id="parentTypeFilter" onchange="filterProducts()"><option value="all">All Parent Types</option><option value="medicine">Medicine</option><option value="surgical_instruments_equipment">Surgical Instruments &amp; Equipment</option><option value="orthopaedic_rehab_supports">Orthopaedic &amp; Rehab Supports</option><option value="diagnostics_devices">Diagnostics &amp; Devices</option><option value="consumables_hygiene">Consumables &amp; Hygiene</option><option value="cosmetics">Cosmetics</option></select>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Online Price</th><th>Stock</th><th>Status</th><th>Prescription</th><th>On Home Page</th><th>Actions</th></tr></thead>
+                    <tbody id="productsList"><tr><td colspan="9">Loading products...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- This Week's Offers Tab -->
+        <div id="offersTab" class="tab-content">
+            <div class="tab-header">
+                <h2><i class="fas fa-gift"></i> This Week's Offers <small style="font-size:13px;font-weight:400;color:#888;margin-left:8px;">Offer price = online price minus the discount. 100% means free.</small></h2>
+                <div class="header-buttons">
+                    <button class="add-btn" onclick="openOfferForm()"><i class="fas fa-plus"></i> New Offer</button>
+                    <button class="refresh-btn" onclick="loadOffers()"><i class="fas fa-sync-alt"></i> Refresh</button>
+                </div>
+            </div>
+
+            <div id="offerFormCard" class="offer-form-card" style="display:none;">
+                <h3 id="offerFormTitle">New offer</h3>
+                <form id="offerForm" onsubmit="saveOffer(event)">
+                    <input type="hidden" id="offerId">
+                    <div class="form-row">
+                        <div class="form-group"><label>Offer title <span class="required">*</span></label><input type="text" id="offerTitle" maxlength="80" required placeholder="e.g. Free thermometer on orders above ZMW 500"></div>
+                        <div class="form-group"><label>Discount % <span class="required">*</span></label><input type="number" id="offerDiscount" min="1" max="100" step="0.01" required oninput="updateOfferPreview()" placeholder="e.g. 20 (100 = free)"><small id="offerPricePreview"></small></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Find product</label><input type="text" id="offerProductSearch" placeholder="Type to search live products..." oninput="filterOfferProducts()"></div>
+                        <div class="form-group"><label>Product <span class="required">*</span></label><select id="offerProduct" required onchange="updateOfferPreview()"></select><small>Only products that are live on the shop</small></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Offer image</label><input type="file" id="offerImageFile" accept="image/*" onchange="uploadOfferImage(this)"><input type="hidden" id="offerImageUrl"><small id="offerImageStatus">Use a picture made for this offer (not the product photo)</small></div>
+                        <div class="form-group"><img id="offerImagePreview" alt="" style="max-height:110px;border-radius:10px;display:none;border:1px solid #ecdfc4;"></div>
+                    </div>
+                    <div class="form-section-title" style="margin:6px 0;"><i class="fas fa-list-check"></i> Conditions (leave empty for none; all filled conditions must be met)</div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Minimum purchase (ZMW)</label><input type="number" id="offerMinPurchase" min="0" step="0.01" placeholder="e.g. 500"><small>Counted on the other items in the bag, not the offer product itself</small></div>
+                        <div class="form-group"><label>Customer must buy from category</label><select id="offerCategory"><option value="">Any category</option></select><small>If a minimum is also set, it is counted on this category only</small></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Max units at offer price per order</label><input type="number" id="offerMaxQty" min="1" step="1" value="1"><small>Extra units are charged at the normal price. Empty = no limit</small></div>
+                        <div class="form-group"><label style="margin-top:22px;"><input type="checkbox" id="offerFirstOnly"> First order only (logged-in customers with no previous order)</label></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Starts <span class="required">*</span></label><input type="date" id="offerStart" required></div>
+                        <div class="form-group"><label>Ends <span class="required">*</span></label><input type="date" id="offerEnd" required><small>The offer stays live to the end of this day</small></div>
+                    </div>
+                    <div class="form-group"><label><input type="checkbox" id="offerActive" checked> Switched on</label></div>
+                    <div class="modal-actions"><button type="button" class="secondary-btn" onclick="closeOfferForm()">Cancel</button><button type="submit" class="primary-btn" id="offerSaveBtn">Save offer</button></div>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Image</th><th>Offer</th><th>Product</th><th>Discount</th><th>Conditions</th><th>Dates</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="offersList"><tr><td colspan="8">Loading offers...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="ordersTab" class="tab-content">
+            <div class="tab-header">
+                <h2><i class="fas fa-truck"></i> Order Management</h2>
+                <div class="header-buttons">
+                    <button class="refresh-btn" onclick="loadOrders()"><i class="fas fa-sync-alt"></i> Refresh</button>
+                    <button class="export-btn" onclick="exportOrders()"><i class="fas fa-download"></i> Export</button>
+                </div>
+            </div>
+            <div class="filters-bar">
+                <input type="text" id="orderSearch" placeholder="Search by order ID, customer name, or phone..." onkeyup="filterOrders()">
+                <select id="orderStatusFilter" onchange="filterOrders()">
+                    <option value="all">All Status</option>
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="ready_for_pickup">Ready for Pickup</option>
+                    <option value="out_for_delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <input type="date" id="orderDateFilter" onchange="filterOrders()">
+            </div>
+            <div class="order-stats">
+                <div class="order-stat-card pending-stat" onclick="filterByStatus('pending')"><i class="fas fa-hourglass-half"></i><div class="stat-info"><span class="stat-value" id="pendingOrders">0</span><span class="stat-label">Pending</span></div></div>
+                <div class="order-stat-card processing-stat" onclick="filterByStatus('processing')"><i class="fas fa-cogs"></i><div class="stat-info"><span class="stat-value" id="processingOrders">0</span><span class="stat-label">Processing</span></div></div>
+                <div class="order-stat-card ready-stat" onclick="filterByStatus('ready_for_pickup')"><i class="fas fa-box-open"></i><div class="stat-info"><span class="stat-value" id="readyForPickupOrders">0</span><span class="stat-label">Ready for Pickup</span></div></div>
+                <div class="order-stat-card out-for-delivery-stat" onclick="filterByStatus('out_for_delivery')"><i class="fas fa-truck"></i><div class="stat-info"><span class="stat-value" id="outForDeliveryOrders">0</span><span class="stat-label">Out for Delivery</span></div></div>
+                <div class="order-stat-card delivered-stat" onclick="filterByStatus('delivered')"><i class="fas fa-check-circle"></i><div class="stat-info"><span class="stat-value" id="deliveredOrders">0</span><span class="stat-label">Delivered</span></div></div>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Rider</th><th>Date</th><th>Actions</th></tr></thead>
+                    <tbody id="ordersList"><tr><td colspan="9">Loading orders...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Order Details Modal -->
+        <div id="orderDetailModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3><i class="fas fa-shopping-cart"></i> Order Details</h3><button class="close-modal" onclick="closeModal('orderDetailModal')">&times;</button></div>
+                <div id="orderDetailContent" class="order-detail-content"><div class="loading-text">Loading order details...</div></div>
+                <div class="modal-actions"><button onclick="closeModal('orderDetailModal')" class="secondary-btn">Close</button><button onclick="printOrderInvoice()" class="primary-btn"><i class="fas fa-print"></i> Print Invoice</button></div>
+            </div>
+        </div>
+
+        <!-- Assign Rider Modal -->
+        <div id="assignRiderModal" class="modal">
+            <div class="modal-box">
+                <div class="modal-header"><h3><i class="fas fa-motorcycle"></i> Assign Rider</h3><button class="close-modal" onclick="closeModal('assignRiderModal')">&times;</button></div>
+                <div class="assign-rider-content">
+                    <div class="form-group"><label>Select Rider</label><select id="riderSelect" class="rider-select"><option value="">-- Select a rider --</option></select></div>
+                    <div class="form-group"><label>Order ID</label><input type="text" id="assignOrderId" readonly></div>
+                    <div class="form-group"><label>Delivery Address</label><textarea id="assignDeliveryAddress" rows="2" readonly></textarea></div>
+                    <input type="hidden" id="assignOrderStatus">
+                </div>
+                <div class="modal-actions"><button onclick="closeModal('assignRiderModal')" class="secondary-btn">Cancel</button><button onclick="confirmAssignRider()" class="primary-btn">Assign Rider</button></div>
+            </div>
+        </div>
+
+        <!-- Prescriptions Tab -->
+        <div id="prescriptionsTab" class="tab-content">
+            <div class="tab-header">
+                <h2><i class="fas fa-file-prescription"></i> Prescription Requests</h2>
+                <div class="header-buttons"><button class="refresh-btn" onclick="loadPrescriptions()"><i class="fas fa-sync-alt"></i> Refresh</button></div>
+            </div>
+            <div class="filters-bar">
+                <input type="text" id="prescriptionSearch" placeholder="Search by patient or reference..." onkeyup="filterPrescriptions()">
+                <select id="prescriptionStatusFilter" onchange="filterPrescriptions()"><option value="all">All Status</option><option value="pending">Pending Review</option><option value="quotation_sent">Quotation Sent</option><option value="completed">Completed</option></select>
+            </div>
+            <div class="prescription-stats">
+                <div class="prescription-stat-card"><i class="fas fa-hourglass-half"></i><div class="stat-info"><span class="stat-value" id="pendingPrescCount">0</span><span class="stat-label">Pending Review</span></div></div>
+                <div class="prescription-stat-card"><i class="fas fa-file-invoice"></i><div class="stat-info"><span class="stat-value" id="quotedPrescCount">0</span><span class="stat-label">Quotations Sent</span></div></div>
+                <div class="prescription-stat-card"><i class="fas fa-check-circle"></i><div class="stat-info"><span class="stat-value" id="completedPrescCount">0</span><span class="stat-label">Completed</span></div></div>
+            </div>
+            <div class="table-container">
+                <table class="data-table"><thead><tr><th>Date</th><th>Patient ID</th><th>Reference</th><th>Prescription</th><th>Status</th><th>Actions</th></tr></thead><tbody id="prescriptionsList"><tr><td colspan="6">Loading prescriptions...</td></tr></tbody></table>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="usersTab" class="tab-content">
+            <div class="tab-header"><h2><i class="fas fa-users"></i> User Management</h2></div>
+            <div class="filters-bar"><input type="text" id="userSearch" placeholder="Search users..." onkeyup="filterUsers()"></div>
+            <div class="table-container">
+                <table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="usersList"><tr><td colspan="6">Loading users...</td></tr></tbody></table>
+            </div>
+        </div>
+
+        <!-- Riders Tab -->
+        <div id="ridersTab" class="tab-content">
+            <div class="tab-header">
+                <h2><i class="fas fa-motorcycle"></i> Rider Management</h2>
+                <div class="header-buttons"><button class="add-btn" onclick="openAddRiderModal()"><i class="fas fa-plus"></i> Add Rider</button><button class="refresh-btn" onclick="loadRiders()"><i class="fas fa-sync-alt"></i> Refresh</button></div>
+            </div>
+            <div class="table-container">
+                <table class="data-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ridersList"><tr><td colspan="5">Loading riders...</td></tr></tbody></table>
+            </div>
+        </div>
+
+        <!-- Add Rider Modal -->
+        <div id="addRiderModal" class="modal">
+            <div class="modal-box">
+                <div class="modal-header"><h3><i class="fas fa-motorcycle"></i> Add New Rider</h3><button class="close-modal" onclick="closeModal('addRiderModal')">&times;</button></div>
+                <form id="addRiderForm" onsubmit="saveRider(event)">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="riderName" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="riderEmail" required></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" id="riderPhone" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="riderPassword" required></div>
+                    <div class="modal-actions"><button type="button" onclick="closeModal('addRiderModal')" class="secondary-btn">Cancel</button><button type="submit" class="primary-btn">Add Rider</button></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Rider Modal -->
+        <div id="editRiderModal" class="modal">
+            <div class="modal-box">
+                <div class="modal-header"><h3><i class="fas fa-edit"></i> Edit Rider</h3><button class="close-modal" onclick="closeModal('editRiderModal')">&times;</button></div>
+                <form id="editRiderForm" onsubmit="updateRider(event)">
+                    <input type="hidden" id="editRiderId">
+                    <div class="form-group"><label>Full Name</label><input type="text" id="editRiderName" required></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="editRiderEmail" required></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" id="editRiderPhone" required></div>
+                    <div class="form-group"><label>Status</label><select id="editRiderStatus"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+                    <div class="modal-actions"><button type="button" onclick="closeModal('editRiderModal')" class="secondary-btn">Cancel</button><button type="submit" class="primary-btn">Update Rider</button></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Product Modal -->
+        <div id="productModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3 id="productModalTitle">Online details</h3><button class="close-modal" onclick="closeProductModal()">&times;</button></div>
+                <form id="productForm" onsubmit="saveProduct(event)">
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="fas fa-info-circle"></i> From the ERP (read-only)</div>
+                        <div class="checkbox-group" style="margin-bottom:12px;">
+                            <label><input type="checkbox" id="prodShowOnline"> <b>Show this product on the shop</b></label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Product Name <span class="required">*</span></label><input type="text" id="prodName" readonly></div>
+                            <div class="form-group"><label>Brand</label><select id="prodBrand" disabled><option value=""></option></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Online Price (ZMW)</label><input type="number" id="prodPrice" step="0.01" readonly><small>Set automatically from the ERP cost</small></div>
+                            <div class="form-group"><label>Original Price (ZMW)</label><input type="number" id="prodOriginalPrice" step="0.01" readonly><small>Cost + 60%. Shown crossed out only when the online price is lower</small></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Custom Price (ZMW) - overrides the ERP price</label><input type="number" id="prodPriceOverride" step="0.01" min="0.01" placeholder="Leave empty to use the ERP price"><small id="prodAutoPriceNote"></small></div>
+                            <div class="form-group"></div>
+                        </div>
+                        <div class="form-row"><div class="form-group"><label>Tag</label><input type="text" id="prodTag" placeholder="e.g., bestseller, new"></div><div class="form-group"></div></div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="fas fa-tags"></i> Classification</div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Parent Type</label><select id="prodParentType" onchange="loadCategoriesByParent()"><option value="">Select Parent Type</option><option value="medicine">Medicine</option><option value="surgical_instruments_equipment">Surgical Instruments &amp; Equipment</option><option value="orthopaedic_rehab_supports">Orthopaedic &amp; Rehab Supports</option><option value="diagnostics_devices">Diagnostics &amp; Devices</option><option value="consumables_hygiene">Consumables &amp; Hygiene</option><option value="cosmetics">Cosmetics</option></select></div>
+                            <div class="form-group"><label>Shop Category</label><select id="prodCategory" onchange="loadSubCategoriesByCategory()"><option value="">Select Parent Type first</option></select>
+                                <div class="add-new-row"><input type="text" id="newCategory" placeholder="Add new category..."><button type="button" onclick="addNewOption('category')" class="small-btn">+ Add</button></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Shop Sub Category</label><select id="prodSubCategory" onchange="onSubCategoryChange()"><option value="">Select category first</option></select>
+                                <div class="add-new-row"><input type="text" id="newSubCategory" placeholder="Add new sub category..."><button type="button" onclick="addNewOption('subCategory')" class="small-btn">+ Add</button></div>
+                            </div>
+                            <div class="form-group"><label>Bundle</label><input type="text" id="prodBundle" placeholder="e.g., cold-flu-bundle"><small>For frequently bought together</small></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Active Ingredient</label><select id="prodActiveIngredient" disabled><option value=""></option></select>
+                            </div>
+                            <div class="form-group"><small>Brand, active ingredient, price and stock all come from the ERP</small></div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="fas fa-image"></i> Product Image</div>
+                        <div class="image-upload-container">
+                            <div class="image-preview"><img id="previewImg" src="placeholder.jpg" alt="Preview"></div>
+                            <div class="upload-controls">
+                                <input type="file" id="prodImageFile" accept="image/*" onchange="previewImage(this)">
+                                <button type="button" onclick="uploadImage()" class="upload-btn">📤 Upload to Storage</button>
+                                <input type="hidden" id="prodImageUrl">
+                                <p class="upload-status" id="imageUploadStatus"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="fas fa-star"></i> Promotion & Visibility</div>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="prodIsTrending"> Is Trending</label>
+                            <label><input type="checkbox" id="prodFeaturedHome"> Featured on Home</label>
+                            <label><input type="checkbox" id="prodHealthEssentials"> Health Essentials (home page)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="fas fa-align-left"></i> Product Description</div>
+                        <div class="rich-editor-toolbar">
+                            <button type="button" onclick="formatText('bold')"><b>Bold</b></button>
+                            <button type="button" onclick="formatText('italic')"><i>Italic</i></button>
+                            <button type="button" onclick="formatText('underline')"><u>Underline</u></button>
+                            <button type="button" onclick="formatText('bullet')">• List</button>
+                            <button type="button" onclick="formatText('number')">1. List</button>
+                        </div>
+                        <div id="descriptionEditor" contenteditable="true" class="rich-editor" placeholder="Enter product description..."></div>
+                        <textarea id="prodDescription" style="display: none;"></textarea>
+                    </div>
+
+                    <input type="hidden" id="prodId">
+                    <div class="modal-actions"><button type="button" onclick="closeProductModal()" class="secondary-btn">Cancel</button><button type="submit" class="primary-btn">Save online details</button></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bulk Add Modal -->
+        <div id="bulkAddModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3><i class="fas fa-file-csv"></i> Bulk Add Products (CSV)</h3><button class="close-modal" onclick="closeBulkAddModal()">&times;</button></div>
+                <div class="bulk-add-content">
+                    <div class="info-banner"><i class="fas fa-info-circle"></i><div><p>Upload a CSV file with columns: <strong>name, brand, parent_type, category, sub_category, active_ingredient, price, original_price</strong></p><p><a href="#" onclick="downloadSampleCSV()">Download Sample CSV Template</a></p></div></div>
+                    <div class="csv-upload-area">
+                        <div class="csv-drop-zone" onclick="document.getElementById('bulkCsvFile').click()"><i class="fas fa-cloud-upload-alt"></i><p>Click or drag CSV file here</p><input type="file" id="bulkCsvFile" accept=".csv" style="display: none;" onchange="previewCSVFile(this)"><small>Supported format: .csv</small></div>
+                        <div id="csvPreviewContainer" style="display: none;"><h4>Preview (<span id="csvPreviewCount">0</span> products)</h4><div id="csvPreviewList" class="preview-list"></div><div class="csv-actions"><button type="button" onclick="clearCSVPreview()" class="secondary-btn">Clear</button><button type="button" onclick="confirmBulkImport()" class="success-btn">Import Products</button></div></div>
+                    </div>
+                </div>
+                <div class="modal-actions"><button type="button" onclick="closeBulkAddModal()" class="secondary-btn">Cancel</button></div>
+            </div>
+        </div>
+
+        <!-- Bulk Edit Modal -->
+        <div id="bulkEditModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3><i class="fas fa-edit"></i> Bulk Edit Products</h3><button class="close-modal" onclick="closeBulkEditModal()">&times;</button></div>
+                <div class="bulk-edit-content">
+                    <div class="info-banner"><i class="fas fa-info-circle"></i><div><p><strong>Step 1:</strong> Download current product list as CSV</p><p><strong>Step 2:</strong> Edit the CSV file</p><p><strong>Step 3:</strong> Upload the edited CSV file</p></div></div>
+                    <div class="bulk-edit-steps">
+                        <div class="step-box"><div class="step-number">1</div><div class="step-content"><h4>Download Current Products</h4><button type="button" onclick="downloadProductsCSV()" class="download-btn"><i class="fas fa-download"></i> Download Products CSV</button></div></div>
+                        <div class="step-arrow">↓</div>
+                        <div class="step-box"><div class="step-number">2</div><div class="step-content"><h4>Edit CSV File</h4><ul class="edit-tips"><li>Keep header row unchanged</li><li>Don't change product ID column</li><li>Update: name, brand, price, category, active_ingredient</li></ul></div></div>
+                        <div class="step-arrow">↓</div>
+                        <div class="step-box"><div class="step-number">3</div><div class="step-content"><h4>Upload Edited CSV</h4><div class="csv-upload-area"><div class="csv-drop-zone" onclick="document.getElementById('editCsvFile').click()"><i class="fas fa-cloud-upload-alt"></i><p>Click to upload edited CSV</p><input type="file" id="editCsvFile" accept=".csv" style="display: none;" onchange="previewEditCSVFile(this)"><small>Only .csv files accepted</small></div></div><div id="editCsvPreviewContainer" style="display: none;"><div id="updateSummary"></div><div class="csv-actions"><button type="button" onclick="clearEditCSVPreview()" class="secondary-btn">Clear</button><button type="button" onclick="confirmBulkEdit()" class="success-btn">Apply Updates</button></div></div></div></div>
+                    </div>
+                </div>
+                <div class="modal-actions"><button type="button" onclick="closeBulkEditModal()" class="secondary-btn">Cancel</button></div>
+            </div>
+        </div>
+
+        <!-- Invoice Modal -->
+        <div id="invoiceModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3><i class="fas fa-file-invoice"></i> Order Invoice</h3><button class="close-modal" onclick="closeInvoiceModal()">&times;</button></div>
+                <div id="invoiceContent" class="invoice-container"><div class="invoice-loading"><i class="fas fa-spinner fa-spin"></i> Loading invoice...</div></div>
+                <div class="modal-actions"><button type="button" onclick="printInvoice()" class="primary-btn"><i class="fas fa-print"></i> Print Invoice</button><button type="button" onclick="closeInvoiceModal()" class="secondary-btn">Close</button></div>
+            </div>
+        </div>
+
+        <!-- Prescription View Modal -->
+        <div id="prescriptionViewModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3><i class="fas fa-prescription"></i> Prescription Details</h3><button class="close-modal" onclick="closePrescriptionViewModal()">&times;</button></div>
+                <div id="prescriptionViewContent" class="prescription-view-container"><div class="loading-text">Loading prescription...</div></div>
+                <div class="modal-actions"><button type="button" onclick="closePrescriptionViewModal()" class="secondary-btn">Close</button></div>
+            </div>
+        </div>
+
+        <!-- Quotation Builder Modal -->
+        <div id="quoteModal" class="modal">
+            <div class="modal-box modal-lg">
+                <div class="modal-header"><h3><i class="fas fa-file-invoice-dollar"></i> Create Quotation</h3><button class="close-modal" onclick="closeQuoteModal()">&times;</button></div>
+                <div class="quote-builder">
+                    <div class="prescription-info" id="prescriptionInfo"><p>Loading prescription details...</p></div>
+                    <div class="prescription-image-preview" id="prescriptionImagePreview">
+                        <h4><i class="fas fa-image"></i> Prescription Image</h4>
+                        <div class="prescription-image-container"><img id="prescriptionPreviewImg" src="" alt="Prescription Image" class="prescription-image"></div>
+                    </div>
+                    <div class="medicine-search-section">
+                        <h4><i class="fas fa-search"></i> Add Medicine</h4>
+                        <div class="search-wrapper">
+                            <input type="text" id="medicineSearch" placeholder="Search medicine by name or active ingredient..." onkeyup="searchMedicines(this.value)">
+                            <div id="medicineSearchResults" class="search-results-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="quotation-items-section">
+                        <h4><i class="fas fa-list"></i> Quotation Items</h4>
+                        <div class="table-container">
+                            <table class="quotation-items-table">
+                                <thead><tr><th>Medicine</th><th>Dosage/Instructions</th><th>Quantity</th><th>Unit Price (ZMW)</th><th>Total (ZMW)</th><th>Action</th></tr></thead>
+                                <tbody id="quotationItemsList"><tr><td colspan="6" class="text-center">No items added yet. Search and add medicines above.</td></tr></tbody>
+                            </table>
+                        </div>
+                        <div class="quotation-total-bar"><div class="total-bar-content"><span class="total-label">Total Amount:</span><span class="total-value" id="quoteGrandTotal">ZMW 0.00</span></div></div>
+                    </div>
+                    <div class="general-instructions-section"><h4><i class="fas fa-sticky-note"></i> General Instructions</h4><textarea id="generalInstructions" rows="3" placeholder="Add general instructions for the patient (e.g., storage instructions, warnings, etc.)"></textarea></div>
+                    <div class="pharmacist-note-section"><h4><i class="fas fa-user-md"></i> Pharmacist Note</h4><textarea id="adminNote" rows="2" placeholder="Add a personal note from the pharmacist..."></textarea></div>
+                    <div class="modal-actions"><button type="button" onclick="closeQuoteModal()" class="secondary-btn">Cancel</button><button type="button" onclick="submitQuotation()" class="primary-btn">Send Quotation</button></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script type="module" src="index.js"></script>
+<script src="../../assets/js/back-button.js"></script>
+
+</body>
+</html>

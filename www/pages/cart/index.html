@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | Griffins Medicals</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="main-header">
+    <div class="logo" onclick="location.href='../home/index.html'">Griffins Medicals Limited</div>
+    <div class="header-actions">
+        <a href="../home/index.html">Home</a>
+        <a href="../admin/index.html" id="adminLink" class="hidden">Admin</a>
+        <a href="javascript:void(0)" id="authLink">Login / Signup</a>
+        <div class="header-controls">
+            <a href="../cart/index.html" id="cartBtn" class="action-pill">
+                <i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span>
+            </a>
+        </div> 
+    </div>
+</header>
+
+<main class="cart-main-wrapper">
+    <div class="cart-flex-container">
+        
+        <div class="cart-left-col">
+            <h1>Your Shopping Cart</h1>
+            <div id="cartList" class="cart-items-wrapper">
+                <p class="status-msg">Checking your items...</p>
+            </div>
+
+            <div id="deliverySection" class="delivery-card">
+                <h3>Delivery Details</h3>
+                
+                <div class="input-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="shipName" placeholder="Recipient Name">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="text" id="shipPhone" placeholder="09xxxxxxx">
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <label>Pin Your House on Map</label>
+                    <div class="map-search-bar">
+                        <input type="text" id="mapSearchInput" placeholder="Type area or street name...">
+                        <button type="button" id="searchLocBtn" class="secondary-btn">Search</button>
+                    </div>
+                    <button type="button" id="locateBtn" class="secondary-btn">📍 Use My Current Location</button>
+                    <div id="map"></div>
+                </div>
+                
+                <div class="form-group landmark-group">
+                    <label>Address Landmarks</label>
+                    <textarea id="shipAddress" rows="2" placeholder="e.g. Near Manda Hill Mall, Blue Gate"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-summary-card">
+            <h3>Order Summary</h3>
+            
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Items Subtotal:</span>
+                    <span id="subtotal">ZMW 0.00</span>
+                </div>
+                <div class="price-row" id="offerSavingsRow" style="display:none;">
+                    <span>🎁 Offer savings:</span>
+                    <span id="offerSavings" class="bold" style="color:#9b3a32;">- ZMW 0.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Delivery (<span id="displayKm">0</span> km):</span>
+                    <span id="deliveryCharge" class="bold">ZMW 0.00</span>
+                </div>
+                <div id="courierNote" class="courier-note hidden">
+                    <span>⚠️ Courier Service Required</span>
+                    <span id="courierEstimate">Contact for quote</span>
+                </div>
+                <hr class="divider">
+                <div class="price-row total-row">
+                    <span class="total-label">Grand Total:</span>
+                    <h2 id="totalAmount">ZMW 0.00</h2>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Payment Method</label>
+                <select id="paymentMethod">
+                    <option value="cod">Cash on Delivery</option>
+                    <option value="mobile_money">Airtel / MTN / Cards (Online)</option>
+                </select>
+            </div>
+            
+            <p id="deliveryNote" class="delivery-note"></p>
+
+            <button id="placeOrderBtn" class="primary-btn">Confirm & Place Order</button>
+            <p class="payment-footer">Payment: Cash on Delivery / Airtel / MTN</p>
+        </div>
+    </div>
+</main>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading...</p>
+    </div>
+</div>
+
+<script type="module" src="../../assets/js/supabase-config.js"></script>
+<script type="module" src="../home/index.js"></script>
+<script type="module" src="index.js"></script>
+<script src="../../assets/js/back-button.js"></script>
+
+</body>
+</html>

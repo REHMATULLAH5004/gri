@@ -1,0 +1,15 @@
+﻿node_modules/
+android/
+ios/
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db
+*.apk
+*.aab
+dist/
+build/
+.env
+*.tmp
+*.backup
