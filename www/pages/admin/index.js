@@ -53,6 +53,12 @@ async function checkAdminAccess() {
         currentUser = profile;
         document.getElementById('adminName').textContent = profile.name || 'Admin';
         
+        // Wire up the tabs FIRST so a link like admin/index.html#prescriptions
+        // (the ERP's Prescriptions button) opens the right tab straight away,
+        // instead of after every list below has finished loading.
+        setupTabs();
+        setupToastContainer();
+        
         await loadDashboardStats();
         await loadProducts();
         await loadOffers();
@@ -62,9 +68,6 @@ async function checkAdminAccess() {
         await loadRiders();
         await loadDropdownOptions();
         await loadAllMedicines();
-        
-        setupTabs();
-        setupToastContainer();
     } catch (err) {
         console.error('Admin access error:', err);
     }
